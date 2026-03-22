@@ -82,11 +82,47 @@ export default function GameScreen({
 
   return (
     <div className="h-screen flex overflow-hidden">
-      {/* Left Panel - Players */}
+      {/* Left Panel - Players & Ranking */}
       <div className="w-56 flex-shrink-0 p-4 flex flex-col gap-3 overflow-y-auto border-r border-border bg-card/50">
-        <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-1">Jugadores</h2>
+        {/* Mini Ranking */}
+        <div className="mb-1">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Clasificación</h2>
+          <div className="space-y-1">
+            {[...state.players]
+              .map((p) => ({ ...p }))
+              .sort((a, b) => b.wedges.filter(Boolean).length - a.wedges.filter(Boolean).length)
+              .map((player, rank) => {
+                const wedgeCount = player.wedges.filter(Boolean).length;
+                const isLeader = rank === 0 && wedgeCount > 0;
+                return (
+                  <div
+                    key={player.id}
+                    className={`flex items-center gap-2 px-2 py-1.5 rounded-md text-xs transition-all duration-200 ${
+                      isLeader ? 'bg-primary/15 ring-1 ring-primary/30' : 'bg-card/60'
+                    }`}
+                  >
+                    <span className={`w-4 text-center font-bold ${isLeader ? 'text-primary' : 'text-muted-foreground'}`}>
+                      {isLeader ? '👑' : `${rank + 1}`}
+                    </span>
+                    <div className="w-3 h-3 rounded-full flex-shrink-0 border border-white/20" style={{ backgroundColor: player.color }} />
+                    <span className={`flex-1 truncate ${isLeader ? 'font-bold text-foreground' : 'text-muted-foreground'}`}>
+                      {player.name}
+                    </span>
+                    <span className={`font-bold tabular-nums ${isLeader ? 'text-primary' : 'text-muted-foreground'}`}>
+                      {wedgeCount}/6
+                    </span>
+                  </div>
+                );
+              })}
+          </div>
+        </div>
+
+        <div className="border-t border-border pt-2">
+          <h2 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-2">Jugadores</h2>
+        </div>
         {state.players.map((player, i) => {
           const isCurrent = i === state.currentPlayerIndex;
+          const wedgeCount = player.wedges.filter(Boolean).length;
           return (
             <div
               key={player.id}
@@ -104,7 +140,10 @@ export default function GameScreen({
                 </span>
                 {isCurrent && <span className="ml-auto text-[10px] text-primary font-bold">▶</span>}
               </div>
-              <WedgePie wedges={player.wedges} />
+              <div className="flex items-center gap-2">
+                <WedgePie wedges={player.wedges} />
+                <span className="text-xs text-muted-foreground font-medium tabular-nums">{wedgeCount}/6 quesitos</span>
+              </div>
             </div>
           );
         })}

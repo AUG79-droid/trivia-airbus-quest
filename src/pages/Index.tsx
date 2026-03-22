@@ -1,16 +1,28 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useGameState } from '@/hooks/useGameState';
+import SetupScreen from '@/components/game/SetupScreen';
+import GameScreen from '@/components/game/GameScreen';
+import VictoryScreen from '@/components/game/VictoryScreen';
 
-// IMPORTANT: Fully REPLACE this with your own code
-const PlaceholderIndex = () => {
-  // PLACEHOLDER: Replace this entire return statement with the user's app.
-  // The inline background color is intentionally not part of the design system.
+export default function Index() {
+  const game = useGameState();
+
+  if (game.state.phase === 'setup') {
+    return <SetupScreen onStart={game.startGame} />;
+  }
+
+  if (game.state.phase === 'victory') {
+    const winner = game.state.players[game.state.currentPlayerIndex];
+    return <VictoryScreen winner={winner} onPlayAgain={game.resetGame} />;
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center" style={{ backgroundColor: '#fcfbf8' }}>
-      <img data-lovable-blank-page-placeholder="REMOVE_THIS" src="/placeholder.svg" alt="Your app will live here!" />
-    </div>
+    <GameScreen
+      state={game.state}
+      rollDie={game.rollDie}
+      selectDestination={game.selectDestination}
+      selectCategory={game.selectCategory}
+      answerQuestion={game.answerQuestion}
+      dismissFeedback={game.dismissFeedback}
+    />
   );
-};
-
-const Index = PlaceholderIndex;
-
-export default Index;
+}

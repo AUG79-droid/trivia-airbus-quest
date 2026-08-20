@@ -1,3 +1,7 @@
-# Welcome to your Lovable project
+# TAS Sustainability Quest
 
-TODO: Document your project here
+An interactive team challenge for sustainability learning in an Airbus context.
+
+## Live application
+
+https://aug79-droid.github.io/trivia-airbus-quest/

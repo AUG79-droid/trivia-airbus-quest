@@ -19,8 +19,8 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
       <div className="game-panel p-8 max-w-lg w-full animate-fade-in-up">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold mb-2 tracking-tight">
-            <span className="text-primary">Biodiver</span>
-            <span className="text-foreground">Trivial</span>
+            <span className="text-primary">TAS Sustainability</span>
+            <span className="text-foreground">Quest</span>
           </h1>
           <p className="text-lg text-muted-foreground">Airbus Edition</p>
         </div>

@@ -6,78 +6,80 @@ export const RING_R = 220;
 const SPOKE_RADII = [75, 130, 175];
 
 export const CATEGORY_COLORS = [
-  '#22c55e', // Especies
-  '#3b82f6', // Ecosistemas
-  '#14b8a6', // Soluciones
-  '#eab308', // Indicadores
-  '#ec4899', // Amenazas
-  '#06b6d4', // Airbus
+  '#38bdf8',
+  '#34d399',
+  '#fb7185',
+  '#fbbf24',
+  '#a78bfa',
+  '#22d3ee',
 ];
 
 export const CATEGORY_NAMES = [
-  'Especies',
+  'Naturaleza',
   'Ecosistemas',
-  'Soluciones',
-  'Indicadores',
-  'Amenazas',
+  'Huella y riesgos',
+  'Mitigación',
+  'Medición',
+  'Operaciones Airbus',
+];
+
+export const CATEGORY_SHORT_NAMES = [
+  'Naturaleza',
+  'Ecosistemas',
+  'Riesgos',
+  'Mitigación',
+  'Medición',
   'Airbus',
 ];
 
-export const PLAYER_COLORS = ['#ef4444', '#a855f7', '#f97316', '#84cc16'];
+export const PLAYER_COLORS = ['#f97316', '#e879f9', '#84cc16', '#facc15'];
 
-function degToRad(d: number) {
-  return (d * Math.PI) / 180;
+function degToRad(degrees: number) {
+  return (degrees * Math.PI) / 180;
 }
 
-export function spokeAngleDeg(i: number) {
-  return i * 60 - 90;
+export function spokeAngleDeg(index: number) {
+  return index * 60 - 90;
 }
 
 function buildNodes(): BoardNode[] {
-  const nodes: BoardNode[] = [];
+  const nodes: BoardNode[] = [
+    { id: 0, type: 'center', category: null, x: CX, y: CY },
+  ];
 
-  // 0: Center
-  nodes.push({ id: 0, type: 'center', category: null, x: CX, y: CY });
-
-  // 1-18: Spoke nodes (6 spokes × 3)
-  for (let i = 0; i < 6; i++) {
-    const angle = degToRad(spokeAngleDeg(i));
-    for (let j = 0; j < 3; j++) {
-      const r = SPOKE_RADII[j];
+  for (let category = 0; category < 6; category += 1) {
+    const angle = degToRad(spokeAngleDeg(category));
+    SPOKE_RADII.forEach((radius, index) => {
       nodes.push({
-        id: 1 + i * 3 + j,
+        id: 1 + category * 3 + index,
         type: 'normal',
-        category: i,
-        x: CX + r * Math.cos(angle),
-        y: CY + r * Math.sin(angle),
+        category,
+        x: CX + radius * Math.cos(angle),
+        y: CY + radius * Math.sin(angle),
       });
-    }
+    });
   }
 
-  // 19-24: Quesito nodes
-  for (let i = 0; i < 6; i++) {
-    const angle = degToRad(spokeAngleDeg(i));
+  for (let category = 0; category < 6; category += 1) {
+    const angle = degToRad(spokeAngleDeg(category));
     nodes.push({
-      id: 19 + i,
+      id: 19 + category,
       type: 'wedge',
-      category: i,
+      category,
       x: CX + RING_R * Math.cos(angle),
       y: CY + RING_R * Math.sin(angle),
     });
   }
 
-  // 25-42: Ring nodes (6 segments × 3)
-  for (let i = 0; i < 6; i++) {
-    const startAngle = spokeAngleDeg(i);
-    for (let k = 0; k < 3; k++) {
-      const t = (k + 1) / 4;
-      const angle = degToRad(startAngle + t * 60);
-      const isRollAgain = k === 1;
-      const category = isRollAgain ? null : k === 0 ? i : (i + 1) % 6;
+  for (let segment = 0; segment < 6; segment += 1) {
+    const startAngle = spokeAngleDeg(segment);
+    for (let index = 0; index < 3; index += 1) {
+      const angle = degToRad(startAngle + ((index + 1) / 4) * 60);
+      const rollAgain = index === 1;
       nodes.push({
-        id: 25 + i * 3 + k,
-        type: isRollAgain ? 'rollAgain' : 'normal',
-        category,
+        id: 25 + segment * 3 + index,
+        type: rollAgain ? 'rollAgain' : 'normal',
+        category: rollAgain ? null : index === 0 ? segment : (segment + 1) % 6,
         x: CX + RING_R * Math.cos(angle),
         y: CY + RING_R * Math.sin(angle),
       });
@@ -88,57 +90,53 @@ function buildNodes(): BoardNode[] {
 }
 
 function buildAdjacency(): number[][] {
-  const adj: number[][] = Array.from({ length: 43 }, () => []);
-  const connect = (a: number, b: number) => {
-    adj[a].push(b);
-    adj[b].push(a);
+  const adjacency: number[][] = Array.from({ length: 43 }, () => []);
+  const connect = (from: number, to: number) => {
+    adjacency[from].push(to);
+    adjacency[to].push(from);
   };
 
-  for (let i = 0; i < 6; i++) {
-    connect(0, 1 + i * 3);
+  for (let spoke = 0; spoke < 6; spoke += 1) {
+    connect(0, 1 + spoke * 3);
+    connect(1 + spoke * 3, 2 + spoke * 3);
+    connect(2 + spoke * 3, 3 + spoke * 3);
+    connect(3 + spoke * 3, 19 + spoke);
   }
 
-  for (let i = 0; i < 6; i++) {
-    for (let j = 0; j < 2; j++) {
-      connect(1 + i * 3 + j, 1 + i * 3 + j + 1);
-    }
-    connect(1 + i * 3 + 2, 19 + i);
+  for (let segment = 0; segment < 6; segment += 1) {
+    connect(19 + segment, 25 + segment * 3);
+    connect(25 + segment * 3, 26 + segment * 3);
+    connect(26 + segment * 3, 27 + segment * 3);
+    connect(27 + segment * 3, 19 + ((segment + 1) % 6));
   }
 
-  for (let i = 0; i < 6; i++) {
-    connect(19 + i, 25 + i * 3);
-    for (let k = 0; k < 2; k++) {
-      connect(25 + i * 3 + k, 25 + i * 3 + k + 1);
-    }
-    connect(25 + i * 3 + 2, 19 + (i + 1) % 6);
-  }
-
-  return adj;
+  return adjacency;
 }
 
 export const NODES = buildNodes();
 export const ADJACENCY = buildAdjacency();
 
-export function findReachableEndpoints(
-  start: number,
-  steps: number
-): Record<number, number[]> {
-  const result: Record<number, number[]> = {};
+export function findReachableEndpoints(start: number, steps: number): Record<number, number[]> {
+  const endpoints: Record<number, number[]> = {};
 
-  function dfs(node: number, prev: number, remaining: number, path: number[]) {
+  function walk(node: number, previous: number, remaining: number, path: number[]) {
     if (remaining === 0) {
-      if (!(node in result)) {
-        result[node] = path;
-      }
+      if (!endpoints[node]) endpoints[node] = path;
       return;
     }
-    for (const neighbor of ADJACENCY[node]) {
-      if (neighbor !== prev) {
-        dfs(neighbor, node, remaining - 1, [...path, neighbor]);
-      }
-    }
+
+    ADJACENCY[node].forEach((next) => {
+      if (next !== previous) walk(next, node, remaining - 1, [...path, next]);
+    });
   }
 
-  dfs(start, -1, steps, [start]);
-  return result;
+  walk(start, -1, steps, [start]);
+  return endpoints;
+}
+
+export function describeNode(node: BoardNode) {
+  if (node.type === 'center') return 'Centro de misión';
+  if (node.type === 'rollAgain') return 'Impulso: vuelve a tirar';
+  if (node.type === 'wedge') return `Parada de insignia: ${CATEGORY_NAMES[node.category!]}`;
+  return CATEGORY_NAMES[node.category!];
 }

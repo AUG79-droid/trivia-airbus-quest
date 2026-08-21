@@ -1,27 +1,27 @@
-import { Player } from '@/game/types';
-import { CATEGORY_COLORS } from '@/game/board';
+import { CATEGORY_COLORS } from '../../game/board';
+import { Player } from '../../game/types';
 
 interface VictoryScreenProps {
   winner: Player;
+  players: Player[];
   onPlayAgain: () => void;
 }
 
-function WedgePie({ wedges, size = 80 }: { wedges: boolean[]; size?: number }) {
-  const r = size / 2 - 4;
-  const cx = size / 2;
-  const cy = size / 2;
+function BadgeWheel({ wedges, size = 116 }: { wedges: boolean[]; size?: number }) {
+  const radius = size / 2 - 5;
+  const center = size / 2;
   return (
-    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
-      {wedges.map((earned, i) => {
-        const a1 = ((i * 60 - 90) * Math.PI) / 180;
-        const a2 = (((i + 1) * 60 - 90) * Math.PI) / 180;
+    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-label="Seis insignias completadas">
+      {wedges.map((earned, index) => {
+        const first = ((index * 60 - 90) * Math.PI) / 180;
+        const second = (((index + 1) * 60 - 90) * Math.PI) / 180;
         return (
           <path
-            key={i}
-            d={`M${cx},${cy} L${cx + r * Math.cos(a1)},${cy + r * Math.sin(a1)} A${r},${r} 0 0,1 ${cx + r * Math.cos(a2)},${cy + r * Math.sin(a2)} Z`}
-            fill={earned ? CATEGORY_COLORS[i] : 'rgba(255,255,255,0.1)'}
-            stroke="rgba(255,255,255,0.3)"
-            strokeWidth={1}
+            key={index}
+            d={`M${center},${center} L${center + radius * Math.cos(first)},${center + radius * Math.sin(first)} A${radius},${radius} 0 0,1 ${center + radius * Math.cos(second)},${center + radius * Math.sin(second)} Z`}
+            fill={earned ? CATEGORY_COLORS[index] : '#193149'}
+            stroke="#eaf6ff"
+            strokeWidth="1.5"
           />
         );
       })}
@@ -29,26 +29,43 @@ function WedgePie({ wedges, size = 80 }: { wedges: boolean[]; size?: number }) {
   );
 }
 
-export default function VictoryScreen({ winner, onPlayAgain }: VictoryScreenProps) {
+export default function VictoryScreen({ winner, players, onPlayAgain }: VictoryScreenProps) {
+  const accuracy = winner.totalAnswers > 0
+    ? Math.round((winner.correctAnswers / winner.totalAnswers) * 100)
+    : 0;
+  const ranking = [...players].sort((a, b) => b.wedges.filter(Boolean).length - a.wedges.filter(Boolean).length || b.score - a.score);
+
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="game-panel p-10 max-w-md w-full text-center animate-fade-in-up">
-        <div className="text-6xl mb-4">🏆</div>
-        <h1 className="text-3xl font-bold mb-2">¡Victoria!</h1>
-        <p className="text-xl text-muted-foreground mb-6">
-          <span style={{ color: winner.color }} className="font-bold">{winner.name}</span>{' '}
-          ha ganado la partida
-        </p>
-        <div className="flex justify-center mb-8">
-          <WedgePie wedges={winner.wedges} size={100} />
+    <main className="victory-page">
+      <section className="victory-card">
+        <p className="eyebrow">MISIÓN COMPLETADA</p>
+        <div className="victory-icon">✓</div>
+        <h1>{winner.name} ha llegado al centro</h1>
+        <p>Ha reunido las seis insignias y ha superado el reto final de sostenibilidad aplicada.</p>
+        <div className="victory-wheel"><BadgeWheel wedges={winner.wedges} /></div>
+
+        <div className="victory-stats">
+          <div><strong>{winner.score}</strong><span>puntos</span></div>
+          <div><strong>{accuracy}%</strong><span>aciertos</span></div>
+          <div><strong>{winner.correctAnswers}</strong><span>respuestas correctas</span></div>
         </div>
-        <button
-          onClick={onPlayAgain}
-          className="px-8 py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg transition-all duration-200 hover:brightness-110 active:scale-[0.98] shadow-lg game-glow"
-        >
-          Jugar de nuevo
-        </button>
-      </div>
-    </div>
+
+        {players.length > 1 && (
+          <div className="final-ranking">
+            <h2>Clasificación final</h2>
+            {ranking.map((player, index) => (
+              <div key={player.id}>
+                <span>{index + 1}</span>
+                <i style={{ backgroundColor: player.color }} />
+                <strong>{player.name}</strong>
+                <small>{player.wedges.filter(Boolean).length}/6 · {player.score} pts</small>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <button type="button" className="primary-button" onClick={onPlayAgain}>Jugar otra partida</button>
+      </section>
+    </main>
   );
 }

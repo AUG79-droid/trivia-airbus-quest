@@ -1,93 +1,93 @@
 import { useState } from 'react';
-import { PLAYER_COLORS, CATEGORY_COLORS, CATEGORY_NAMES } from '@/game/board';
+import { CATEGORY_COLORS, CATEGORY_SHORT_NAMES, PLAYER_COLORS } from '../../game/board';
 
 interface SetupScreenProps {
   onStart: (names: string[]) => void;
 }
 
 export default function SetupScreen({ onStart }: SetupScreenProps) {
-  const [count, setCount] = useState(2);
-  const [names, setNames] = useState(['Jugador 1', 'Jugador 2', 'Jugador 3', 'Jugador 4']);
+  const [count, setCount] = useState(1);
+  const [names, setNames] = useState(['Participante 1', 'Participante 2', 'Participante 3', 'Participante 4']);
 
-  const handleStart = () => {
-    const playerNames = names.slice(0, count).map((n, i) => n.trim() || `Jugador ${i + 1}`);
-    onStart(playerNames);
+  const start = () => {
+    const selectedNames = names
+      .slice(0, count)
+      .map((name, index) => name.trim() || `Participante ${index + 1}`);
+    onStart(selectedNames);
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="game-panel p-8 max-w-lg w-full animate-fade-in-up">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold mb-2 tracking-tight">
-            <span className="text-primary">TAS Sustainability</span>
-            <span className="text-foreground">Quest</span>
-          </h1>
-          <p className="text-lg text-muted-foreground">Airbus Edition</p>
+    <main className="setup-page">
+      <section className="setup-hero">
+        <div className="brand-mark" aria-hidden="true">
+          <span /><span /><span /><span /><span /><span />
+        </div>
+        <p className="eyebrow">APRENDER · DECIDIR · AVANZAR</p>
+        <h1><span>TAS</span> Sustainability Quest</h1>
+        <p className="setup-lead">
+          Recorre el tablero, aplica criterios de sostenibilidad y reúne las seis insignias de misión.
+        </p>
+
+        <div className="mission-flow" aria-label="Cómo se juega">
+          <div><strong>1</strong><span>Tira el dado</span></div>
+          <div><strong>2</strong><span>Elige tu ruta</span></div>
+          <div><strong>3</strong><span>Responde</span></div>
+          <div><strong>4</strong><span>Gana insignias</span></div>
+          <div><strong>5</strong><span>Supera la final</span></div>
         </div>
 
-        {/* Category preview */}
-        <div className="flex justify-center gap-2 mb-8">
-          {CATEGORY_NAMES.map((name, i) => (
-            <div key={i} className="flex flex-col items-center gap-1">
-              <div
-                className="w-6 h-6 rounded-full border border-white/20"
-                style={{ backgroundColor: CATEGORY_COLORS[i] }}
-              />
-              <span className="text-[10px] text-muted-foreground">{name}</span>
-            </div>
+        <div className="category-strip">
+          {CATEGORY_SHORT_NAMES.map((name, index) => (
+            <span key={name}><i style={{ backgroundColor: CATEGORY_COLORS[index] }} />{name}</span>
           ))}
         </div>
+      </section>
 
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-muted-foreground mb-2">
-            Número de jugadores
-          </label>
-          <div className="flex gap-2">
-            {[2, 3, 4].map(n => (
+      <section className="setup-card" aria-labelledby="setup-title">
+        <div>
+          <p className="eyebrow">CONFIGURA LA PARTIDA</p>
+          <h2 id="setup-title">¿Quién juega?</h2>
+          <p>El modo individual está pensado para formación autónoma. También podéis competir hasta cuatro personas.</p>
+        </div>
+
+        <fieldset className="player-count">
+          <legend>Número de participantes</legend>
+          <div>
+            {[1, 2, 3, 4].map((number) => (
               <button
-                key={n}
-                onClick={() => setCount(n)}
-                className={`flex-1 py-3 rounded-lg font-semibold transition-all duration-200 active:scale-95 ${
-                  count === n
-                    ? 'bg-primary text-primary-foreground shadow-lg'
-                    : 'bg-secondary text-secondary-foreground hover:bg-muted'
-                }`}
+                type="button"
+                key={number}
+                onClick={() => setCount(number)}
+                className={count === number ? 'selected' : ''}
+                aria-pressed={count === number}
               >
-                {n}
+                {number}
               </button>
             ))}
           </div>
-        </div>
+        </fieldset>
 
-        <div className="space-y-3 mb-8">
-          {Array.from({ length: count }).map((_, i) => (
-            <div key={i} className="flex items-center gap-3">
-              <div
-                className="w-8 h-8 rounded-full flex-shrink-0 border-2 border-white/20"
-                style={{ backgroundColor: PLAYER_COLORS[i] }}
-              />
+        <div className="player-inputs">
+          {Array.from({ length: count }, (_, index) => (
+            <label key={index}>
+              <span className="player-color" style={{ backgroundColor: PLAYER_COLORS[index] }} />
+              <span className="sr-only">Nombre del participante {index + 1}</span>
               <input
-                type="text"
-                value={names[i]}
-                onChange={e => {
+                value={names[index]}
+                maxLength={18}
+                onChange={(event) => {
                   const next = [...names];
-                  next[i] = e.target.value;
+                  next[index] = event.target.value;
                   setNames(next);
                 }}
-                className="flex-1 bg-input border border-border rounded-lg px-4 py-2.5 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-                placeholder={`Jugador ${i + 1}`}
               />
-            </div>
+            </label>
           ))}
         </div>
 
-        <button
-          onClick={handleStart}
-          className="w-full py-4 rounded-xl bg-primary text-primary-foreground font-bold text-lg transition-all duration-200 hover:brightness-110 active:scale-[0.98] shadow-lg game-glow"
-        >
-          ¡Comenzar partida!
-        </button>
-      </div>
-    </div>
+        <button type="button" className="primary-button start-button" onClick={start}>Comenzar misión</button>
+        <p className="privacy-note">La partida se guarda únicamente en este navegador para poder continuar tras recargar.</p>
+      </section>
+    </main>
   );
 }

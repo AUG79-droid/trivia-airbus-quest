@@ -1,9 +1,11 @@
-import { useReducer, useCallback } from 'react';
-import { GameState, GamePhase, Player } from '@/game/types';
-import { NODES, findReachableEndpoints, CATEGORY_NAMES, PLAYER_COLORS } from '@/game/board';
-import { getRandomQuestion } from '@/game/questions';
+import { useCallback, useEffect, useReducer } from 'react';
+import { CATEGORY_NAMES, NODES, PLAYER_COLORS, findReachableEndpoints } from '../game/board';
+import { getRandomQuestion } from '../game/questions';
+import { GameState, Player } from '../game/types';
 
-const initialState: GameState = {
+const STORAGE_KEY = 'tas-sustainability-quest-v2';
+
+export const initialState: GameState = {
   phase: 'setup',
   players: [],
   currentPlayerIndex: 0,
@@ -15,109 +17,115 @@ const initialState: GameState = {
   isFinalQuestion: false,
   usedQuestionIds: [],
   statusMessage: '',
+  turnNumber: 1,
+  newlyEarnedWedge: null,
 };
 
-type Action =
+export type GameAction =
   | { type: 'START_GAME'; names: string[] }
-  | { type: 'ROLL_DIE' }
+  | { type: 'ROLL_DIE'; forcedValue?: number }
   | { type: 'SELECT_DESTINATION'; nodeId: number }
   | { type: 'SELECT_CATEGORY'; category: number }
+  | { type: 'START_FINAL' }
   | { type: 'ANSWER_QUESTION'; answerIndex: number }
   | { type: 'DISMISS_FEEDBACK' }
   | { type: 'RESET' };
 
-function reducer(state: GameState, action: Action): GameState {
+function finalQuestionState(state: GameState, players = state.players): GameState {
+  const category = Math.floor(Math.random() * 6);
+  const question = getRandomQuestion(category, state.usedQuestionIds);
+  if (!question) return state;
+
+  return {
+    ...state,
+    players,
+    phase: 'answering',
+    currentQuestion: question,
+    selectedCategory: category,
+    validDestinations: {},
+    isFinalQuestion: true,
+    newlyEarnedWedge: null,
+    statusMessage: `Reto final: ${CATEGORY_NAMES[category]}`,
+  };
+}
+
+export function gameReducer(state: GameState, action: GameAction): GameState {
   switch (action.type) {
     case 'START_GAME': {
-      const players: Player[] = action.names.map((name, i) => ({
-        id: i,
+      const players: Player[] = action.names.map((name, index) => ({
+        id: index,
         name,
-        color: PLAYER_COLORS[i],
+        color: PLAYER_COLORS[index],
         position: 0,
         wedges: [false, false, false, false, false, false],
+        score: 0,
+        correctAnswers: 0,
+        totalAnswers: 0,
       }));
+
       return {
         ...initialState,
         phase: 'rolling',
         players,
-        statusMessage: `Turno de ${players[0].name}. Tira el dado.`,
+        statusMessage: `Turno de ${players[0].name}. Tira el dado y elige una ruta.`,
       };
     }
 
     case 'ROLL_DIE': {
-      const dieValue = Math.floor(Math.random() * 6) + 1;
+      if (state.phase !== 'rolling') return state;
+      const dieValue = action.forcedValue ?? Math.floor(Math.random() * 6) + 1;
       const player = state.players[state.currentPlayerIndex];
-      const destinations = findReachableEndpoints(player.position, dieValue);
-
-      if (Object.keys(destinations).length === 0) {
-        const nextIdx = (state.currentPlayerIndex + 1) % state.players.length;
-        return {
-          ...state,
-          phase: 'rolling',
-          currentPlayerIndex: nextIdx,
-          dieValue,
-          statusMessage: `Has sacado ${dieValue} pero no hay movimientos válidos. Turno de ${state.players[nextIdx].name}.`,
-        };
-      }
+      const validDestinations = findReachableEndpoints(player.position, dieValue);
 
       return {
         ...state,
         phase: 'selectingMove',
         dieValue,
-        validDestinations: destinations,
-        statusMessage: `Has sacado ${dieValue}. Elige casilla final válida.`,
+        validDestinations,
+        newlyEarnedWedge: null,
+        statusMessage: `Has sacado ${dieValue}. Los destinos posibles están iluminados: elige uno.`,
       };
     }
 
     case 'SELECT_DESTINATION': {
+      if (!state.validDestinations[action.nodeId]) return state;
       const node = NODES[action.nodeId];
-      const updatedPlayers = state.players.map((p, i) =>
-        i === state.currentPlayerIndex ? { ...p, position: action.nodeId } : p
+      const players = state.players.map((player, index) =>
+        index === state.currentPlayerIndex ? { ...player, position: action.nodeId } : player,
       );
 
       if (node.type === 'rollAgain') {
         return {
           ...state,
-          players: updatedPlayers,
+          players,
           phase: 'rolling',
-          validDestinations: {},
           dieValue: null,
-          statusMessage: '¡Vuelve a tirar!',
+          validDestinations: {},
+          statusMessage: 'Has llegado a una casilla de impulso. Vuelve a tirar.',
         };
       }
 
-      if (node.type === 'center' || action.nodeId === 0) {
-        const player = updatedPlayers[state.currentPlayerIndex];
-        const hasAllWedges = player.wedges.every(Boolean);
+      if (node.type === 'center') {
+        const hasAllWedges = players[state.currentPlayerIndex].wedges.every(Boolean);
+        if (hasAllWedges) return finalQuestionState(state, players);
+
         return {
           ...state,
-          players: updatedPlayers,
+          players,
           phase: 'selectingCategory',
           validDestinations: {},
-          isFinalQuestion: hasAllWedges,
-          statusMessage: hasAllWedges
-            ? '¡Tienes todos los quesitos! Elige la categoría de la pregunta final.'
-            : 'Estás en el centro. Elige una categoría.',
+          dieValue: null,
+          isFinalQuestion: false,
+          statusMessage: 'Centro de misión: elige la categoría que quieres responder.',
         };
       }
 
       const question = getRandomQuestion(node.category!, state.usedQuestionIds);
-      if (!question) {
-        const nextIdx = (state.currentPlayerIndex + 1) % state.players.length;
-        return {
-          ...state,
-          players: updatedPlayers,
-          phase: 'rolling',
-          currentPlayerIndex: nextIdx,
-          validDestinations: {},
-          dieValue: null,
-          statusMessage: 'No hay preguntas disponibles. Siguiente turno.',
-        };
-      }
+      if (!question) return state;
 
       return {
         ...state,
-        players: updatedPlayers,
+        players,
         phase: 'answering',
         currentQuestion: question,
         selectedCategory: node.category,
@@ -128,8 +136,10 @@ function reducer(state: GameState, action: Action): GameState {
     }
 
     case 'SELECT_CATEGORY': {
+      if (state.phase !== 'selectingCategory') return state;
       const question = getRandomQuestion(action.category, state.usedQuestionIds);
       if (!question) return state;
+
       return {
         ...state,
         phase: 'answering',
@@ -139,73 +149,100 @@ function reducer(state: GameState, action: Action): GameState {
       };
     }
 
-    case 'ANSWER_QUESTION': {
-      const correct = action.answerIndex === state.currentQuestion!.correctIndex;
-      const node = NODES[state.players[state.currentPlayerIndex].position];
-      let updatedPlayers = state.players;
-      let message: string;
+    case 'START_FINAL': {
+      const player = state.players[state.currentPlayerIndex];
+      if (state.phase !== 'rolling' || player.position !== 0 || !player.wedges.every(Boolean)) return state;
+      return finalQuestionState(state);
+    }
 
-      if (correct) {
-        if (state.isFinalQuestion) {
-          return {
-            ...state,
-            phase: 'victory',
-            lastAnswerCorrect: true,
-            usedQuestionIds: [...state.usedQuestionIds, state.currentQuestion!.id],
-            statusMessage: `¡${state.players[state.currentPlayerIndex].name} ha ganado la partida!`,
-          };
-        }
-        if (node.type === 'wedge' && node.category !== null) {
-          updatedPlayers = state.players.map((p, i) => {
-            if (i !== state.currentPlayerIndex) return p;
-            const newWedges = [...p.wedges];
-            newWedges[node.category!] = true;
-            return { ...p, wedges: newWedges };
-          });
-          message = `¡Correcto! Has ganado el quesito de ${CATEGORY_NAMES[node.category]}. Vuelve a tirar.`;
-        } else {
-          message = '¡Correcto! Vuelve a tirar.';
-        }
+    case 'ANSWER_QUESTION': {
+      if (!state.currentQuestion || state.phase !== 'answering') return state;
+      const correct = action.answerIndex === state.currentQuestion.correctIndex;
+      const currentNode = NODES[state.players[state.currentPlayerIndex].position];
+      const earnsNewWedge = correct
+        && !state.isFinalQuestion
+        && currentNode.type === 'wedge'
+        && currentNode.category !== null
+        && !state.players[state.currentPlayerIndex].wedges[currentNode.category];
+
+      const players = state.players.map((player, index) => {
+        if (index !== state.currentPlayerIndex) return player;
+        const wedges = [...player.wedges];
+        if (earnsNewWedge) wedges[currentNode.category!] = true;
+        return {
+          ...player,
+          wedges,
+          totalAnswers: player.totalAnswers + 1,
+          correctAnswers: player.correctAnswers + (correct ? 1 : 0),
+          score: player.score + (correct ? (state.isFinalQuestion ? 500 : earnsNewWedge ? 300 : 100) : 0),
+        };
+      });
+
+      const usedQuestionIds = [...state.usedQuestionIds, state.currentQuestion.id];
+
+      if (correct && state.isFinalQuestion) {
+        return {
+          ...state,
+          players,
+          phase: 'victory',
+          lastAnswerCorrect: true,
+          usedQuestionIds,
+          statusMessage: `${players[state.currentPlayerIndex].name} ha completado las seis áreas y el reto final.`,
+        };
+      }
+
+      let statusMessage: string;
+      if (correct && earnsNewWedge) {
+        const completed = players[state.currentPlayerIndex].wedges.every(Boolean);
+        statusMessage = completed
+          ? `Insignia conseguida. Ya tienes las seis: alcanza el centro para afrontar el reto final.`
+          : `Insignia conseguida: ${CATEGORY_NAMES[currentNode.category!]}. Conservas el turno.`;
+      } else if (correct) {
+        statusMessage = 'Respuesta correcta. Sumas 100 puntos y conservas el turno.';
+      } else if (state.isFinalQuestion) {
+        statusMessage = 'El reto final no está superado. Podrás intentarlo de nuevo en tu próximo turno.';
       } else {
-        message = `Incorrecto. La respuesta correcta era: ${state.currentQuestion!.options[state.currentQuestion!.correctIndex]}`;
+        statusMessage = 'Respuesta incorrecta. El turno pasa al siguiente jugador.';
       }
 
       return {
         ...state,
+        players,
         phase: 'feedback',
-        players: updatedPlayers,
         lastAnswerCorrect: correct,
-        usedQuestionIds: [...state.usedQuestionIds, state.currentQuestion!.id],
-        statusMessage: message,
+        usedQuestionIds,
+        statusMessage,
+        newlyEarnedWedge: earnsNewWedge ? currentNode.category : null,
       };
     }
 
     case 'DISMISS_FEEDBACK': {
-      if (state.lastAnswerCorrect) {
-        return {
-          ...state,
-          phase: 'rolling',
-          currentQuestion: null,
-          lastAnswerCorrect: null,
-          dieValue: null,
-          selectedCategory: null,
-          isFinalQuestion: false,
-          statusMessage: `Turno de ${state.players[state.currentPlayerIndex].name}. Vuelve a tirar.`,
-        };
-      } else {
-        const nextIdx = (state.currentPlayerIndex + 1) % state.players.length;
-        return {
-          ...state,
-          phase: 'rolling',
-          currentPlayerIndex: nextIdx,
-          currentQuestion: null,
-          lastAnswerCorrect: null,
-          dieValue: null,
-          selectedCategory: null,
-          isFinalQuestion: false,
-          statusMessage: `Turno de ${state.players[nextIdx].name}. Tira el dado.`,
-        };
-      }
+      const keepTurn = state.lastAnswerCorrect && !state.isFinalQuestion;
+      const nextIndex = keepTurn
+        ? state.currentPlayerIndex
+        : (state.currentPlayerIndex + 1) % state.players.length;
+      const nextPlayer = state.players[nextIndex];
+      const finalReady = nextPlayer.position === 0 && nextPlayer.wedges.every(Boolean);
+
+      return {
+        ...state,
+        phase: 'rolling',
+        currentPlayerIndex: nextIndex,
+        currentQuestion: null,
+        lastAnswerCorrect: null,
+        dieValue: null,
+        selectedCategory: null,
+        isFinalQuestion: false,
+        newlyEarnedWedge: null,
+        turnNumber: state.turnNumber + 1,
+        statusMessage: finalReady
+          ? `Turno de ${nextPlayer.name}. El reto final está disponible en el centro.`
+          : keepTurn
+            ? `${nextPlayer.name} conserva el turno. Vuelve a tirar.`
+            : state.players.length === 1
+              ? 'Nueva ronda. Tira el dado para continuar.'
+              : `Turno de ${nextPlayer.name}. Tira el dado.`,
+      };
     }
 
     case 'RESET':
@@ -216,16 +253,38 @@ function reducer(state: GameState, action: Action): GameState {
   }
 }
 
+function loadState(): GameState {
+  if (typeof window === 'undefined') return initialState;
+  try {
+    const saved = window.localStorage.getItem(STORAGE_KEY);
+    if (!saved) return initialState;
+    const parsed = JSON.parse(saved) as GameState;
+    if (!Array.isArray(parsed.players) || parsed.players.length === 0) return initialState;
+    return parsed;
+  } catch {
+    return initialState;
+  }
+}
+
 export function useGameState() {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(gameReducer, initialState, loadState);
+
+  useEffect(() => {
+    if (state.phase === 'setup') {
+      window.localStorage.removeItem(STORAGE_KEY);
+    } else {
+      window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+  }, [state]);
 
   return {
     state,
     startGame: useCallback((names: string[]) => dispatch({ type: 'START_GAME', names }), []),
     rollDie: useCallback(() => dispatch({ type: 'ROLL_DIE' }), []),
     selectDestination: useCallback((nodeId: number) => dispatch({ type: 'SELECT_DESTINATION', nodeId }), []),
-    selectCategory: useCallback((cat: number) => dispatch({ type: 'SELECT_CATEGORY', category: cat }), []),
-    answerQuestion: useCallback((idx: number) => dispatch({ type: 'ANSWER_QUESTION', answerIndex: idx }), []),
+    selectCategory: useCallback((category: number) => dispatch({ type: 'SELECT_CATEGORY', category }), []),
+    startFinal: useCallback(() => dispatch({ type: 'START_FINAL' }), []),
+    answerQuestion: useCallback((answerIndex: number) => dispatch({ type: 'ANSWER_QUESTION', answerIndex }), []),
     dismissFeedback: useCallback(() => dispatch({ type: 'DISMISS_FEEDBACK' }), []),
     resetGame: useCallback(() => dispatch({ type: 'RESET' }), []),
   };

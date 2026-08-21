@@ -1,237 +1,254 @@
-import { BoardNode, Player } from '@/game/types';
-import { NODES, CATEGORY_COLORS, CX, CY, RING_R, spokeAngleDeg, ADJACENCY } from '@/game/board';
+import { useMemo, useState } from 'react';
+import {
+  ADJACENCY,
+  CATEGORY_COLORS,
+  CATEGORY_SHORT_NAMES,
+  CX,
+  CY,
+  NODES,
+  RING_R,
+  describeNode,
+  spokeAngleDeg,
+} from '../../game/board';
+import { Player } from '../../game/types';
 
 interface BoardProps {
   players: Player[];
+  currentPlayerIndex: number;
   validDestinations: Record<number, number[]>;
   onSelectDestination: (nodeId: number) => void;
   phase: string;
 }
 
-function degToRad(d: number) {
-  return (d * Math.PI) / 180;
+const wait = (milliseconds: number) => new Promise((resolve) => window.setTimeout(resolve, milliseconds));
+
+function radians(degrees: number) {
+  return (degrees * Math.PI) / 180;
 }
 
-function RollAgainIcon({ x, y }: { x: number; y: number }) {
-  return (
-    <g transform={`translate(${x},${y})`}>
-      <path
-        d="M-5,-2 A5,5 0 1,1 -2,5 M-2,5 L-4,3 M-2,5 L0,3"
-        fill="none"
-        stroke="white"
-        strokeWidth={1.5}
-        strokeLinecap="round"
-      />
-    </g>
-  );
+function pathPoints(path: number[]) {
+  return path.map((id) => `${NODES[id].x},${NODES[id].y}`).join(' ');
 }
 
-export default function Board({ players, validDestinations, onSelectDestination, phase }: BoardProps) {
-  const isSelecting = phase === 'selectingMove';
-  const validIds = new Set(Object.keys(validDestinations).map(Number));
+export default function Board({
+  players,
+  currentPlayerIndex,
+  validDestinations,
+  onSelectDestination,
+  phase,
+}: BoardProps) {
+  const [hoveredDestination, setHoveredDestination] = useState<number | null>(null);
+  const [movingPath, setMovingPath] = useState<number[] | null>(null);
+  const [animatedPosition, setAnimatedPosition] = useState<number | null>(null);
+  const isSelecting = phase === 'selectingMove' && !movingPath;
+  const validIds = Object.keys(validDestinations).map(Number);
+  const highlightedPath = movingPath
+    ?? (hoveredDestination !== null ? validDestinations[hoveredDestination] : null);
 
-  // Compute player offsets for stacking
+  const edges = useMemo(() => {
+    const unique: Array<[number, number]> = [];
+    ADJACENCY.forEach((neighbors, from) => {
+      neighbors.forEach((to) => {
+        if (from < to) unique.push([from, to]);
+      });
+    });
+    return unique;
+  }, []);
+
+  const moveTo = async (nodeId: number) => {
+    if (!isSelecting) return;
+    const path = validDestinations[nodeId];
+    if (!path) return;
+
+    setHoveredDestination(null);
+    setMovingPath(path);
+    for (const step of path.slice(1)) {
+      await wait(230);
+      setAnimatedPosition(step);
+    }
+    await wait(140);
+    onSelectDestination(nodeId);
+    await wait(50);
+    setAnimatedPosition(null);
+    setMovingPath(null);
+  };
+
   const positionPlayers: Record<number, Player[]> = {};
-  players.forEach(p => {
-    if (!positionPlayers[p.position]) positionPlayers[p.position] = [];
-    positionPlayers[p.position].push(p);
+  players.forEach((player, index) => {
+    const position = index === currentPlayerIndex && animatedPosition !== null
+      ? animatedPosition
+      : player.position;
+    if (!positionPlayers[position]) positionPlayers[position] = [];
+    positionPlayers[position].push(player);
   });
 
   return (
-    <svg viewBox="0 0 600 600" className="w-full h-full max-w-[600px] max-h-[600px]">
-      {/* Background */}
-      <defs>
-        <radialGradient id="bg-grad" cx="50%" cy="50%">
-          <stop offset="0%" stopColor="hsl(230,20%,16%)" />
-          <stop offset="100%" stopColor="hsl(230,25%,8%)" />
-        </radialGradient>
-        <filter id="glow">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-      </defs>
-      <rect x={0} y={0} width={600} height={600} fill="url(#bg-grad)" rx={16} />
+    <div className="board-shell" aria-label="Tablero de TAS Sustainability Quest">
+      <svg viewBox="0 0 600 600" className="board-svg" role="img">
+        <defs>
+          <radialGradient id="board-background" cx="50%" cy="45%">
+            <stop offset="0%" stopColor="#17324d" />
+            <stop offset="60%" stopColor="#0b1f33" />
+            <stop offset="100%" stopColor="#06111f" />
+          </radialGradient>
+          <filter id="node-glow" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
+          <filter id="token-shadow" x="-100%" y="-100%" width="300%" height="300%">
+            <feDropShadow dx="0" dy="2" stdDeviation="2" floodOpacity="0.65" />
+          </filter>
+        </defs>
 
-      {/* Ring circle */}
-      <circle cx={CX} cy={CY} r={RING_R} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={28} />
+        <rect width="600" height="600" rx="28" fill="url(#board-background)" />
+        <circle cx={CX} cy={CY} r={RING_R + 31} fill="none" stroke="#2b5272" strokeWidth="1" strokeDasharray="4 8" opacity="0.7" />
 
-      {/* Spoke lines */}
-      {Array.from({ length: 6 }).map((_, i) => {
-        const angle = degToRad(spokeAngleDeg(i));
-        return (
+        {edges.map(([from, to]) => (
           <line
-            key={`spoke-${i}`}
-            x1={CX + 35 * Math.cos(angle)}
-            y1={CY + 35 * Math.sin(angle)}
-            x2={CX + (RING_R - 14) * Math.cos(angle)}
-            y2={CY + (RING_R - 14) * Math.sin(angle)}
-            stroke="rgba(255,255,255,0.08)"
-            strokeWidth={8}
+            key={`${from}-${to}`}
+            x1={NODES[from].x}
+            y1={NODES[from].y}
+            x2={NODES[to].x}
+            y2={NODES[to].y}
+            stroke="#27445e"
+            strokeWidth="10"
             strokeLinecap="round"
           />
-        );
-      })}
+        ))}
 
-      {/* Center hub */}
-      <circle cx={CX} cy={CY} r={30} fill="hsl(230,20%,18%)" stroke="rgba(255,255,255,0.2)" strokeWidth={2} />
-      {/* Center pie segments */}
-      {Array.from({ length: 6 }).map((_, i) => {
-        const a1 = degToRad(i * 60 - 90);
-        const a2 = degToRad((i + 1) * 60 - 90);
-        const r = 26;
-        return (
-          <path
-            key={`center-seg-${i}`}
-            d={`M${CX},${CY} L${CX + r * Math.cos(a1)},${CY + r * Math.sin(a1)} A${r},${r} 0 0,1 ${CX + r * Math.cos(a2)},${CY + r * Math.sin(a2)} Z`}
-            fill={CATEGORY_COLORS[i]}
-            opacity={0.3}
-            stroke="rgba(255,255,255,0.15)"
-            strokeWidth={0.5}
+        {highlightedPath && highlightedPath.length > 1 && (
+          <polyline
+            points={pathPoints(highlightedPath)}
+            fill="none"
+            stroke="#f8fafc"
+            strokeWidth="6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            opacity="0.72"
+            className="route-line"
           />
-        );
-      })}
+        )}
 
-      {/* Valid destination highlight */}
-      {isSelecting &&
-        Object.keys(validDestinations).map(idStr => {
-          const id = Number(idStr);
-          const node = NODES[id];
-          if (id === 0) {
-            return (
-              <circle
-                key={`valid-${id}`}
-                cx={CX}
-                cy={CY}
-                r={34}
-                fill="none"
-                stroke="white"
-                strokeWidth={2.5}
-                className="animate-pulse-glow"
-                style={{ cursor: 'pointer' }}
-                onClick={() => onSelectDestination(id)}
-              />
-            );
-          }
+        {CATEGORY_SHORT_NAMES.map((name, index) => {
+          const angle = radians(spokeAngleDeg(index));
+          const radius = RING_R + 54;
           return (
-            <circle
-              key={`valid-${id}`}
-              cx={node.x}
-              cy={node.y}
-              r={node.type === 'wedge' ? 20 : 17}
-              fill="none"
-              stroke="white"
-              strokeWidth={2.5}
-              className="animate-pulse-glow"
-              style={{ cursor: 'pointer' }}
-              onClick={() => onSelectDestination(id)}
-            />
+            <g key={name}>
+              <circle
+                cx={CX + radius * Math.cos(angle)}
+                cy={CY + radius * Math.sin(angle)}
+                r="5"
+                fill={CATEGORY_COLORS[index]}
+              />
+              <text
+                x={CX + (radius + 13) * Math.cos(angle)}
+                y={CY + (radius + 13) * Math.sin(angle)}
+                textAnchor="middle"
+                dominantBaseline="middle"
+                className="board-category-label"
+              >
+                {name}
+              </text>
+            </g>
           );
         })}
 
-      {/* Casillas */}
-      {NODES.filter(n => n.id !== 0).map(node => {
-        const isWedge = node.type === 'wedge';
-        const isRA = node.type === 'rollAgain';
-        const r = isWedge ? 15 : 12;
-        const fill = isRA
-          ? 'hsl(230,15%,25%)'
-          : node.category !== null
-          ? CATEGORY_COLORS[node.category]
-          : '#555';
-        const isValid = validIds.has(node.id);
+        {NODES.map((node) => {
+          const isCenter = node.type === 'center';
+          const isWedge = node.type === 'wedge';
+          const isRollAgain = node.type === 'rollAgain';
+          const radius = isCenter ? 30 : isWedge ? 19 : 13;
+          const fill = isCenter
+            ? '#102b44'
+            : isRollAgain
+              ? '#294861'
+              : CATEGORY_COLORS[node.category!];
+          return (
+            <g key={node.id}>
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r={radius}
+                fill={fill}
+                stroke={isWedge ? '#ffffff' : '#a9c4d8'}
+                strokeWidth={isWedge ? 2.5 : 1}
+                filter={isWedge ? 'url(#node-glow)' : undefined}
+              />
+              {isCenter && (
+                <text x={node.x} y={node.y + 1} textAnchor="middle" dominantBaseline="middle" className="center-label">FINAL</text>
+              )}
+              {isWedge && (
+                <path d={`M ${node.x} ${node.y - 8} L ${node.x + 8} ${node.y + 7} L ${node.x - 8} ${node.y + 7} Z`} fill="#ffffff" opacity="0.92" />
+              )}
+              {isRollAgain && (
+                <text x={node.x} y={node.y + 1} textAnchor="middle" dominantBaseline="middle" className="roll-label">↻</text>
+              )}
+            </g>
+          );
+        })}
 
-        return (
-          <g key={node.id}>
-            <circle
-              cx={node.x}
-              cy={node.y}
-              r={r}
-              fill={fill}
-              stroke={isWedge ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.2)'}
-              strokeWidth={isWedge ? 2 : 1}
-              style={isValid && isSelecting ? { cursor: 'pointer' } : undefined}
-              onClick={isValid && isSelecting ? () => onSelectDestination(node.id) : undefined}
-              filter={isWedge ? 'url(#glow)' : undefined}
-            />
-            {isWedge && (
-              <text
-                x={node.x}
-                y={node.y + 1}
-                textAnchor="middle"
-                dominantBaseline="middle"
-                fill="white"
-                fontSize={9}
-                fontWeight="bold"
-                style={{ pointerEvents: 'none' }}
-              >
-                ★
-              </text>
-            )}
-            {isRA && <RollAgainIcon x={node.x} y={node.y} />}
-          </g>
-        );
-      })}
-
-      {/* Center clickable area when valid */}
-      {isSelecting && validIds.has(0) && (
-        <circle
-          cx={CX}
-          cy={CY}
-          r={30}
-          fill="transparent"
-          style={{ cursor: 'pointer' }}
-          onClick={() => onSelectDestination(0)}
-        />
-      )}
-
-      {/* Player tokens */}
-      {players.map(player => {
-        const node = NODES[player.position];
-        const playersHere = positionPlayers[player.position] || [];
-        const idx = playersHere.indexOf(player);
-        const total = playersHere.length;
-        let ox = 0, oy = 0;
-        if (player.position === 0) {
-          // Spread around center
-          const angle = degToRad(idx * (360 / total) - 90);
-          const spread = total > 1 ? 16 : 0;
-          ox = spread * Math.cos(angle);
-          oy = spread * Math.sin(angle);
-        } else if (total > 1) {
-          const offsets = [[-6, -6], [6, -6], [-6, 6], [6, 6]];
-          ox = offsets[idx]?.[0] ?? 0;
-          oy = offsets[idx]?.[1] ?? 0;
-        }
-
-        return (
-          <g key={player.id}>
-            <circle
-              cx={node.x + ox}
-              cy={node.y + oy}
-              r={7}
-              fill={player.color}
-              stroke="white"
-              strokeWidth={2}
-              style={{ transition: 'cx 0.4s ease, cy 0.4s ease' }}
-            />
-            <text
-              x={node.x + ox}
-              y={node.y + oy + 1}
-              textAnchor="middle"
-              dominantBaseline="middle"
-              fill="white"
-              fontSize={7}
-              fontWeight="bold"
-              style={{ pointerEvents: 'none' }}
+        {validIds.map((nodeId, index) => {
+          const node = NODES[nodeId];
+          const selected = hoveredDestination === nodeId;
+          return (
+            <g
+              key={`destination-${nodeId}`}
+              role="button"
+              tabIndex={isSelecting ? 0 : -1}
+              aria-label={`Destino ${index + 1}: ${describeNode(node)}`}
+              className={isSelecting ? 'destination' : ''}
+              onMouseEnter={() => isSelecting && setHoveredDestination(nodeId)}
+              onMouseLeave={() => setHoveredDestination(null)}
+              onFocus={() => isSelecting && setHoveredDestination(nodeId)}
+              onBlur={() => setHoveredDestination(null)}
+              onClick={() => moveTo(nodeId)}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  moveTo(nodeId);
+                }
+              }}
             >
-              {player.name[0]}
-            </text>
-          </g>
-        );
-      })}
-    </svg>
+              <circle
+                cx={node.x}
+                cy={node.y}
+                r={node.type === 'center' ? 38 : node.type === 'wedge' ? 29 : 23}
+                fill={selected ? 'rgba(255,255,255,0.22)' : 'rgba(255,255,255,0.06)'}
+                stroke="#ffffff"
+                strokeWidth={selected ? 4 : 2.5}
+                className="destination-ring"
+              />
+              <circle cx={node.x + 18} cy={node.y - 18} r="10" fill="#f8fafc" />
+              <text x={node.x + 18} y={node.y - 17} textAnchor="middle" dominantBaseline="middle" className="destination-number">{index + 1}</text>
+            </g>
+          );
+        })}
+
+        {players.map((player, playerIndex) => {
+          const position = playerIndex === currentPlayerIndex && animatedPosition !== null
+            ? animatedPosition
+            : player.position;
+          const node = NODES[position];
+          const playersHere = positionPlayers[position] ?? [];
+          const stackIndex = playersHere.findIndex((candidate) => candidate.id === player.id);
+          const offsets = [[0, 0], [-10, -8], [10, -8], [-10, 9]];
+          const [offsetX, offsetY] = playersHere.length > 1 ? offsets[stackIndex] ?? [0, 0] : [0, 0];
+          const current = playerIndex === currentPlayerIndex;
+          return (
+            <g key={player.id} filter="url(#token-shadow)" className={current ? 'active-token' : ''}>
+              {current && <circle cx={node.x + offsetX} cy={node.y + offsetY} r="14" fill="none" stroke="#ffffff" strokeWidth="2" opacity="0.7" />}
+              <circle cx={node.x + offsetX} cy={node.y + offsetY} r="9" fill={player.color} stroke="#ffffff" strokeWidth="2" />
+              <text x={node.x + offsetX} y={node.y + offsetY + 1} textAnchor="middle" dominantBaseline="middle" className="token-label">{player.name.slice(0, 1).toUpperCase()}</text>
+            </g>
+          );
+        })}
+      </svg>
+
+      <div className="board-legend" aria-hidden="true">
+        <span><i className="legend-wedge" /> Parada de insignia</span>
+        <span><i className="legend-boost">↻</i> Vuelve a tirar</span>
+        <span><i className="legend-route" /> Ruta disponible</span>
+      </div>
+    </div>
   );
 }

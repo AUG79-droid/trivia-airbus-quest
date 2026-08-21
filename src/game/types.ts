@@ -14,6 +14,9 @@ export interface Player {
   color: string;
   position: number;
   wedges: boolean[];
+  score: number;
+  correctAnswers: number;
+  totalAnswers: number;
 }
 
 export interface Question {
@@ -22,6 +25,7 @@ export interface Question {
   text: string;
   options: string[];
   correctIndex: number;
+  explanation: string;
 }
 
 export type GamePhase =
@@ -45,4 +49,6 @@ export interface GameState {
   isFinalQuestion: boolean;
   usedQuestionIds: number[];
   statusMessage: string;
+  turnNumber: number;
+  newlyEarnedWedge: number | null;
 }

@@ -1,59 +1,631 @@
 import { Question } from './types';
 
+/** 48 escenarios aplicados: ocho por categoría. Datos y decisiones didácticos, no aprobaciones reales de Airbus. */
 export const QUESTIONS: Question[] = [
-  { id: 1, category: 0, text: '¿Qué tres niveles forman la diversidad de la naturaleza?', options: ['Clima, agua y suelo', 'Genes, especies y ecosistemas', 'Plantas, animales y hongos', 'Local, regional y global'], correctIndex: 1, explanation: 'La variedad natural se analiza en tres niveles conectados: diversidad genética dentro de las especies, diversidad de especies y diversidad de ecosistemas.' },
-  { id: 2, category: 0, text: 'Una especie endémica es aquella que…', options: ['Solo vive de noche', 'Se encuentra de forma natural en una zona limitada', 'Ha sido introducida por personas', 'Es abundante en todo el mundo'], correctIndex: 1, explanation: 'Las especies endémicas tienen una distribución natural restringida. Esa limitación puede aumentar su vulnerabilidad ante cambios locales.' },
-  { id: 3, category: 0, text: '¿Por qué la diversidad genética mejora la resiliencia de una población?', options: ['Elimina toda competencia', 'Aumenta la probabilidad de que algunos individuos toleren cambios', 'Impide las enfermedades', 'Hace que todas las especies sean iguales'], correctIndex: 1, explanation: 'Una población genéticamente diversa dispone de más respuestas posibles ante enfermedades, variaciones climáticas u otras presiones.' },
-  { id: 4, category: 0, text: '¿Qué función ecológica realizan muchos insectos, aves y murciélagos?', options: ['Compactar el suelo', 'Polinizar plantas', 'Aumentar la contaminación lumínica', 'Crear especies invasoras'], correctIndex: 1, explanation: 'La polinización permite la reproducción de numerosas plantas silvestres y cultivos, y sostiene redes alimentarias completas.' },
-  { id: 5, category: 0, text: '¿Qué diferencia principal hay entre una especie exótica y una invasora?', options: ['Ninguna', 'La invasora causa impactos al establecerse y propagarse', 'La exótica siempre es venenosa', 'La invasora solo vive en ciudades'], correctIndex: 1, explanation: 'No toda especie introducida es invasora. Se considera invasora cuando su expansión genera daños ecológicos, económicos o sociales.' },
-  { id: 6, category: 0, text: 'Antes de una obra en época de cría, ¿qué medida aporta mejor información?', options: ['Empezar y observar después', 'Realizar una prospección ecológica previa', 'Aumentar la iluminación', 'Retirar toda la vegetación'], correctIndex: 1, explanation: 'Una prospección previa permite detectar nidos, refugios o especies sensibles y adaptar calendario, diseño y medidas preventivas.' },
-  { id: 7, category: 0, text: '¿Por qué la iluminación nocturna puede afectar a la fauna?', options: ['Porque mejora todos los hábitats', 'Porque altera orientación, actividad y ciclos biológicos', 'Porque reduce el ruido', 'Porque aumenta la diversidad genética'], correctIndex: 1, explanation: 'La luz artificial nocturna puede modificar rutas, alimentación, reproducción y relaciones depredador-presa. Debe justificarse, orientarse y limitarse.' },
-  { id: 8, category: 0, text: 'Si desaparece una especie clave de una red trófica, ¿qué puede ocurrir?', options: ['Nada, todas son intercambiables', 'Efectos en cascada sobre otras poblaciones', 'Solo cambia el paisaje visual', 'Aumenta automáticamente la estabilidad'], correctIndex: 1, explanation: 'Las relaciones ecológicas conectan a las especies. La pérdida de una especie clave puede alterar abundancias, hábitats y funciones del ecosistema.' },
-
-  { id: 101, category: 1, text: '¿Qué son los servicios ecosistémicos?', options: ['Servicios de jardinería', 'Contribuciones de los ecosistemas al bienestar y la actividad humana', 'Solo productos agrícolas', 'Únicamente espacios protegidos'], correctIndex: 1, explanation: 'Incluyen provisión, regulación, valores culturales y procesos ecológicos de soporte. Las organizaciones dependen de ellos directa e indirectamente.' },
-  { id: 102, category: 1, text: '¿Qué servicio puede prestar un humedal bien conservado?', options: ['Aumentar la erosión', 'Regular inundaciones y depurar agua', 'Eliminar todas las especies', 'Evitar cualquier sequía'], correctIndex: 1, explanation: 'Los humedales almacenan agua, retienen sedimentos y nutrientes y ofrecen hábitat. No eliminan todo riesgo, pero pueden reducirlo.' },
-  { id: 103, category: 1, text: '¿Qué significa conectividad ecológica?', options: ['Tener wifi en el campo', 'Permitir el movimiento de organismos entre hábitats', 'Unir edificios con carreteras', 'Concentrar la fauna en un recinto'], correctIndex: 1, explanation: 'La conectividad facilita dispersión, migración e intercambio genético. Los corredores y pasos de fauna reducen el aislamiento.' },
-  { id: 104, category: 1, text: 'Un suelo sano debe entenderse como…', options: ['Un soporte inerte', 'Un sistema vivo que regula agua, nutrientes y carbono', 'Un residuo de construcción', 'Una superficie que siempre debe sellarse'], correctIndex: 1, explanation: 'El suelo alberga organismos, almacena carbono, filtra agua y sostiene vegetación. Su sellado o contaminación reduce esas funciones.' },
-  { id: 105, category: 1, text: '¿Cuál es un efecto habitual de fragmentar un hábitat?', options: ['Mejorar todos los desplazamientos', 'Aislar poblaciones y aumentar los efectos de borde', 'Eliminar la necesidad de seguimiento', 'Crear más diversidad automáticamente'], correctIndex: 1, explanation: 'La fragmentación divide áreas continuas en parches, dificulta movimientos y expone más superficie a ruido, luz, depredación u otras presiones.' },
-  { id: 106, category: 1, text: '¿Para qué sirve una línea base ecológica?', options: ['Para justificar una decisión ya tomada', 'Para conocer el estado inicial y comparar cambios', 'Para sustituir el seguimiento', 'Para medir solo emisiones'], correctIndex: 1, explanation: 'La línea base describe el estado previo con métodos y límites claros. Sin ella es difícil atribuir mejoras o deterioros a una actuación.' },
-  { id: 107, category: 1, text: '¿Qué caracteriza a una solución basada en la naturaleza?', options: ['Imitar el color verde', 'Abordar un reto social protegiendo o restaurando ecosistemas', 'Plantar árboles en cualquier lugar', 'Sustituir toda infraestructura'], correctIndex: 1, explanation: 'Una solución basada en la naturaleza debe responder a un reto y aportar beneficios ecológicos verificables, con diseño adecuado al contexto local.' },
-  { id: 108, category: 1, text: '¿Por qué importa la escala de paisaje?', options: ['Porque un recinto nunca se conecta con su entorno', 'Porque agua, especies y presiones atraviesan los límites de una instalación', 'Porque solo cuentan los mapas nacionales', 'Porque evita consultar a actores locales'], correctIndex: 1, explanation: 'Los procesos ecológicos no siguen las lindes administrativas. Evaluar cuenca, corredores y usos vecinos mejora la calidad de las decisiones.' },
-
-  { id: 201, category: 2, text: '¿Cuál es la diferencia entre impacto y dependencia de la naturaleza?', options: ['Son sinónimos', 'Impacto es el cambio causado; dependencia es lo que la actividad necesita', 'La dependencia siempre es positiva', 'El impacto solo ocurre fuera de la empresa'], correctIndex: 1, explanation: 'Una actividad puede afectar a la naturaleza y, al mismo tiempo, depender de agua, regulación climática, materiales o estabilidad del suelo.' },
-  { id: 202, category: 2, text: '¿Qué enfoque identifica impactos desde materias primas hasta el fin de vida?', options: ['Pensamiento de ciclo de vida', 'Inspección visual única', 'Marketing ambiental', 'Contabilidad financiera aislada'], correctIndex: 0, explanation: 'El ciclo de vida evita trasladar impactos entre etapas o lugares y permite comparar alternativas con límites consistentes.' },
-  { id: 203, category: 2, text: '¿Qué presión suele generar el sellado de suelo?', options: ['Pérdida de infiltración y hábitat', 'Mayor conectividad ecológica', 'Recuperación automática del suelo', 'Menos escorrentía en todos los casos'], correctIndex: 0, explanation: 'Las superficies impermeables reducen infiltración, alteran drenaje y eliminan funciones del suelo. Evitar y minimizar superficie ocupada es prioritario.' },
-  { id: 204, category: 2, text: 'Para evaluar riesgo hídrico de una instalación, ¿qué combinación es más útil?', options: ['Solo consumo anual', 'Consumo, estado de la cuenca y necesidades de otros usuarios', 'Solo precio del agua', 'Número de grifos'], correctIndex: 1, explanation: 'Un mismo consumo tiene implicaciones distintas según disponibilidad, calidad, estacionalidad y competencia por el recurso en la cuenca.' },
-  { id: 205, category: 2, text: '¿Qué mejora la trazabilidad ambiental de una compra?', options: ['Conocer origen, material, proveedor y evidencias', 'Usar una etiqueta verde sin criterios', 'Elegir siempre la opción más barata', 'Evitar preguntas al proveedor'], correctIndex: 0, explanation: 'La trazabilidad permite localizar riesgos en la cadena de valor y verificar requisitos, certificaciones y planes de mejora.' },
-  { id: 206, category: 2, text: '¿Cuál es un riesgo físico relacionado con la naturaleza?', options: ['Escasez de agua que interrumpe operaciones', 'Cambio de logotipo', 'Una campaña interna', 'Un premio de comunicación'], correctIndex: 0, explanation: 'La degradación de ecosistemas puede agravar sequías, inundaciones, erosión o pérdida de materias primas y afectar la continuidad operativa.' },
-  { id: 207, category: 2, text: 'Una sustancia derramada puede afectar a un ecosistema principalmente por…', options: ['Su ruta de exposición, concentración y persistencia', 'El color del envase', 'La edad del edificio', 'El número de reuniones'], correctIndex: 0, explanation: 'La evaluación debe seguir la vía desde la fuente al receptor: drenajes, suelo, aguas superficiales o subterráneas y organismos expuestos.' },
-  { id: 208, category: 2, text: '¿Qué riesgo existe al mirar solo el recinto propio?', options: ['Ninguno', 'Ignorar impactos relevantes de proveedores, logística y uso de materiales', 'Medir demasiado', 'Reducir costes siempre'], correctIndex: 1, explanation: 'Una parte importante de la huella puede estar en la cadena de valor. Hay que priorizarla según materialidad, influencia y calidad de datos.' },
-
-  { id: 301, category: 3, text: '¿Cuál es el orden correcto de la jerarquía de mitigación?', options: ['Compensar, restaurar, minimizar, evitar', 'Evitar, minimizar, restaurar y, por último, compensar', 'Restaurar, evitar, compensar, minimizar', 'Medir, comunicar, compensar, cerrar'], correctIndex: 1, explanation: 'Primero se evita el impacto; después se minimiza lo inevitable, se restaura lo afectado y solo los impactos residuales se consideran para compensación.' },
-  { id: 302, category: 3, text: '¿Por qué compensar no sustituye a evitar?', options: ['Porque siempre cuesta menos', 'Porque algunos valores naturales son irremplazables o tardan décadas en recuperarse', 'Porque no requiere seguimiento', 'Porque elimina la necesidad de diseño'], correctIndex: 1, explanation: 'La compensación tiene incertidumbre, retrasos y límites ecológicos. No legitima destruir un valor crítico que podía conservarse.' },
-  { id: 303, category: 3, text: '¿Qué medida aplica mejor el principio de evitar?', options: ['Reubicar una obra fuera de un hábitat sensible', 'Plantar después de construir', 'Pagar una campaña', 'Medir el daño al final'], correctIndex: 0, explanation: 'Cambiar ubicación, diseño o calendario antes de generar el impacto suele ser más eficaz y seguro que reparar posteriormente.' },
-  { id: 304, category: 3, text: '¿Qué necesita un plan de restauración sólido?', options: ['Solo una lista de plantas', 'Objetivo, referencia ecológica, acciones, indicadores y mantenimiento', 'Una foto del primer día', 'Una promesa sin plazo'], correctIndex: 1, explanation: 'Restaurar es recuperar estructura, funciones y trayectoria ecológica. Requiere objetivos medibles y gestión durante el tiempo necesario.' },
-  { id: 305, category: 3, text: 'Para reducir impacto de luz nocturna, la primera pregunta debería ser…', options: ['¿Podemos instalar más focos?', '¿Es necesaria, dónde y durante cuánto tiempo?', '¿Qué color queda mejor?', '¿Puede verse desde lejos?'], correctIndex: 1, explanation: 'La secuencia es evitar iluminación innecesaria y después limitar intensidad, horario, orientación y espectro según receptores sensibles.' },
-  { id: 306, category: 3, text: '¿Qué es gestión adaptativa?', options: ['Mantener el plan aunque falle', 'Ajustar las medidas con resultados de seguimiento', 'Cambiar objetivos cada semana', 'Actuar sin indicadores'], correctIndex: 1, explanation: 'Se definen umbrales y respuestas antes de actuar. Los datos de seguimiento permiten corregir medidas cuando no alcanzan el resultado previsto.' },
-  { id: 307, category: 3, text: '¿Qué criterio evita introducir plantas inadecuadas en una restauración?', options: ['Usar especies nativas compatibles con el lugar', 'Elegir solo por crecimiento rápido', 'Comprar la mezcla más barata', 'Usar cualquier especie ornamental'], correctIndex: 0, explanation: 'La procedencia, diversidad y adecuación al suelo y clima importan. También debe controlarse el riesgo de invasoras y la disponibilidad de mantenimiento.' },
-  { id: 308, category: 3, text: '¿Qué significa adicionalidad en una medida de compensación?', options: ['Que el resultado habría ocurrido igualmente', 'Que genera una mejora que no se produciría sin la intervención', 'Que no necesita pruebas', 'Que solo añade presupuesto'], correctIndex: 1, explanation: 'Una medida adicional aporta un resultado por encima de obligaciones y tendencias existentes; debe demostrarse con una referencia creíble.' },
-
-  { id: 401, category: 4, text: '¿Cuál es un indicador de estado?', options: ['Hectáreas ocupadas', 'Calidad ecológica de un humedal', 'Número de reuniones', 'Presupuesto asignado'], correctIndex: 1, explanation: 'Los indicadores de estado describen la condición de la naturaleza. Las hectáreas ocupadas son una presión y las acciones realizadas son respuestas.' },
-  { id: 402, category: 4, text: '¿Qué hace que un indicador sea útil para decidir?', options: ['Que sea fácil de publicar', 'Que sea relevante, medible, comparable y vinculado a un objetivo', 'Que siempre aumente', 'Que no tenga unidad'], correctIndex: 1, explanation: 'Un buen indicador tiene definición, método, frecuencia, responsable, línea base y umbral o meta que active decisiones.' },
-  { id: 403, category: 4, text: '¿Por qué contar árboles plantados no demuestra por sí solo una mejora?', options: ['Porque los árboles no importan', 'Porque mide actividad, no supervivencia, adecuación ni función ecológica', 'Porque siempre son demasiados', 'Porque no se pueden contar'], correctIndex: 1, explanation: 'La actividad debe conectarse con resultados: supervivencia, diversidad, estructura, conectividad y funciones recuperadas a lo largo del tiempo.' },
-  { id: 404, category: 4, text: '¿Qué debe acompañar a una afirmación ambiental?', options: ['Un color verde', 'Alcance, periodo, método, datos y limitaciones', 'Solo una fotografía', 'Una frase absoluta'], correctIndex: 1, explanation: 'La comunicación responsable permite verificar la afirmación y evita ocultar incertidumbres, impactos residuales o límites del análisis.' },
-  { id: 405, category: 4, text: '¿Para qué sirve un indicador de presión?', options: ['Para medir la causa o intensidad de un impacto', 'Para describir únicamente reputación', 'Para reemplazar la línea base', 'Para contar premios'], correctIndex: 0, explanation: 'Superficie ocupada, ruido, vertido o consumo de agua son presiones. Deben relacionarse con el estado de los receptores ecológicos.' },
-  { id: 406, category: 4, text: 'Si los datos son incompletos, ¿qué práctica es correcta?', options: ['Ocultarlo', 'Documentar incertidumbre, usar supuestos prudentes y mejorar el dato', 'Inventar una cifra', 'Cancelar todo seguimiento'], correctIndex: 1, explanation: 'La incertidumbre no impide decidir, pero debe ser visible. Los supuestos conservadores y un plan de mejora reducen el riesgo de falsa precisión.' },
-  { id: 407, category: 4, text: '¿Qué aporta combinar datos de teledetección y trabajo de campo?', options: ['Escala espacial y validación local', 'Eliminar toda incertidumbre', 'Evitar visitas siempre', 'Medir solo costes'], correctIndex: 0, explanation: 'La observación remota cubre grandes áreas y series temporales; el campo confirma especies, condición y causas que una imagen no siempre distingue.' },
-  { id: 408, category: 4, text: '¿Qué pregunta ayuda a priorizar un asunto de naturaleza?', options: ['¿Es el gráfico atractivo?', '¿Qué magnitud, sensibilidad, dependencia e influencia tenemos?', '¿Cuántos colores usa?', '¿Puede resumirse en una palabra?'], correctIndex: 1, explanation: 'La priorización combina importancia del impacto o dependencia, sensibilidad del lugar, riesgo para la organización y capacidad de influir.' },
-
-  { id: 501, category: 5, text: 'En una zona de mantenimiento del A400M aparece una mancha cerca de un drenaje. ¿Qué se hace primero?', options: ['Lavarla hacia el drenaje', 'Detener la fuente, contener y activar el protocolo de incidente', 'Esperar a que se evapore', 'Cubrirla con tierra'], correctIndex: 1, explanation: 'La prioridad es proteger personas y medio, cortar la fuente y evitar que el contaminante alcance suelo o agua. Después se notifica, recupera y analiza la causa.' },
-  { id: 502, category: 5, text: 'Una prueba asociada al Eurofighter coincide con una zona y periodo sensibles para aves. ¿Qué respuesta aplica mejor la jerarquía?', options: ['Mantenerla sin cambios', 'Revisar ruta, horario o fecha para evitar la afección', 'Compensar antes de evaluar', 'Aumentar el número de vuelos'], correctIndex: 1, explanation: 'La planificación operacional puede evitar la coincidencia espacial o temporal. Si queda impacto, se evalúan medidas adicionales y restricciones de seguridad.' },
-  { id: 503, category: 5, text: 'Para ampliar una instalación, ¿qué alternativa debe analizarse primero?', options: ['La que ocupa el hábitat más sensible', 'Reutilizar suelo ya transformado y reducir nueva ocupación', 'La más visible desde la carretera', 'La que exige más iluminación'], correctIndex: 1, explanation: 'La reutilización de áreas ya alteradas puede evitar nueva pérdida de suelo y hábitat, siempre que se comprueben contaminación, seguridad y viabilidad.' },
-  { id: 504, category: 5, text: '¿Cómo puede compatibilizarse la gestión de fauna con la seguridad aeronáutica?', options: ['Atrayendo fauna a pistas', 'Diseñando el hábitat y las medidas con evaluación conjunta de riesgos', 'Ignorando los movimientos de aves', 'Eliminando toda vegetación sin análisis'], correctIndex: 1, explanation: 'La seguridad es prioritaria, pero las medidas deben basarse en especies, comportamiento y contexto para no crear nuevos atractores ni impactos innecesarios.' },
-  { id: 505, category: 5, text: 'En una compra de embalajes de madera, ¿qué evidencia es más útil?', options: ['Que el embalaje sea verde', 'Origen trazable y gestión forestal verificada', 'Una promesa verbal', 'El menor peso sin más datos'], correctIndex: 1, explanation: 'La trazabilidad y la verificación permiten reducir riesgos de deforestación o aprovechamiento ilegal en la cadena de suministro.' },
-  { id: 506, category: 5, text: '¿Qué mejora un plan de siega en terrenos industriales?', options: ['Segar todo el año con la misma frecuencia', 'Ajustar zonas y calendario a seguridad, incendios y ciclos ecológicos', 'Eliminar el seguimiento', 'Introducir especies invasoras'], correctIndex: 1, explanation: 'Una gestión diferenciada puede mantener visibilidad y seguridad, reducir recursos y favorecer hábitat, evitando periodos críticos cuando sea posible.' },
-  { id: 507, category: 5, text: '¿Qué valor aporta la observación de la Tierra a la gestión ambiental?', options: ['Sustituye siempre el trabajo de campo', 'Ayuda a detectar cambios y priorizar verificaciones', 'Elimina la necesidad de contexto', 'Solo produce imágenes decorativas'], correctIndex: 1, explanation: 'Las series satelitales permiten observar cobertura, humedad o cambios del territorio. Su interpretación debe validarse con conocimiento local y datos de campo.' },
-  { id: 508, category: 5, text: 'Tras implantar una medida ambiental en una planta, ¿qué cierra el ciclo de gestión?', options: ['Publicar una foto', 'Medir resultados, comparar con umbrales y corregir si es necesario', 'Dar la acción por terminada', 'Cambiar el nombre del proyecto'], correctIndex: 1, explanation: 'La eficacia no se presume: se comprueba. El seguimiento convierte una acción aislada en aprendizaje y mejora continua.' },
+  {
+    "id": 1,
+    "category": 0,
+    "text": "En un retrofit de aviónica, ¿qué comparación sirve para evaluar circularidad?",
+    "options": [
+      "Una placa nueva frente a cualquier reparación",
+      "Dos soluciones que cumplen la misma función y requisitos, a lo largo del ciclo de vida",
+      "El precio de compra únicamente",
+      "La masa del embalaje"
+    ],
+    "correctIndex": 1,
+    "explanation": "Primero se define una función equivalente, la conformidad y el horizonte de servicio. Después se comparan materiales, mantenimiento, energía, repuestos y fin de vida; una sola cifra no representa todo el ciclo."
+  },
+  {
+    "id": 2,
+    "category": 0,
+    "text": "¿Qué debe incluir el alcance de un análisis de ciclo de vida de un componente aeronáutico?",
+    "options": [
+      "Solo las emisiones de fabricación",
+      "Únicamente el reciclaje final",
+      "Los procesos relevantes desde materiales hasta uso, mantenimiento y fin de vida",
+      "La fotografía del proveedor"
+    ],
+    "correctIndex": 2,
+    "explanation": "La frontera debe abarcar las etapas significativas para la decisión: extracción y procesamiento de materiales, fabricación, transporte, operación, mantenimiento y final de vida, evitando omisiones materiales."
+  },
+  {
+    "id": 3,
+    "category": 0,
+    "text": "Un panel reparado pesa menos que otro nuevo, pero aún falta cualificar la reparación. ¿Qué procede?",
+    "options": [
+      "Instalarlo por su menor consumo de materiales",
+      "Rechazar cualquier posibilidad de reparación",
+      "Autorizarlo si el proveedor dice que es circular",
+      "Completar las verificaciones técnicas antes de comparar opciones aptas"
+    ],
+    "correctIndex": 3,
+    "explanation": "La reparabilidad solo aporta valor cuando el componente mantiene integridad, seguridad y configuración aprobadas. Primero se valida la reparación; después se comparan alternativas conformes."
+  },
+  {
+    "id": 4,
+    "category": 0,
+    "text": "Una nueva pieza requiere más material, pero podría durar el doble. ¿Qué decide el análisis?",
+    "options": [
+      "Comparar impactos por una misma prestación durante un periodo definido",
+      "Elegir siempre la más ligera",
+      "Preferir automáticamente la vida útil más larga",
+      "Elegir por el color del material"
+    ],
+    "correctIndex": 0,
+    "explanation": "Una pieza más duradera podría reducir sustituciones, aunque su fabricación inicial tenga más carga. Deben examinarse durabilidad real, mantenimiento y condiciones de uso bajo una misma unidad funcional."
+  },
+  {
+    "id": 5,
+    "category": 0,
+    "text": "¿Qué requisito de diseño facilita afrontar la obsolescencia en servicio?",
+    "options": [
+      "Sellar permanentemente el conjunto",
+      "Facilitar acceso, sustitución controlada y documentación de interfaces",
+      "Eliminar la información de configuración",
+      "Diseñar solo para el menor precio inicial"
+    ],
+    "correctIndex": 1,
+    "explanation": "La modularidad, el acceso y las interfaces documentadas pueden facilitar reparación y actualización. Su beneficio depende de validación técnica y de evitar costes o impactos desproporcionados en otros procesos."
+  },
+  {
+    "id": 6,
+    "category": 0,
+    "text": "Un proveedor anuncia que un composite será «100 % reciclable». ¿Qué evidencias faltan?",
+    "options": [
+      "No falta nada si aparece en un folleto",
+      "Solo el logotipo de reciclaje",
+      "Proceso disponible, calidad de la salida, rendimientos y aplicación real",
+      "La opinión de marketing"
+    ],
+    "correctIndex": 2,
+    "explanation": "Que exista una tecnología de reciclado no demuestra recogida, viabilidad a escala ni calidad adecuada del material recuperado. La afirmación necesita límites, datos y una vía real de recuperación."
+  },
+  {
+    "id": 7,
+    "category": 0,
+    "text": "¿Qué dato favorece decisiones verificables de diseño para reparación?",
+    "options": [
+      "La cantidad de presentaciones del proyecto",
+      "Un eslogan de economía circular",
+      "La antigüedad del diseño",
+      "Tiempo, accesos, herramientas, desmontaje y criterios de aceptación medidos"
+    ],
+    "correctIndex": 3,
+    "explanation": "Los indicadores de reparabilidad deben relacionarse con tareas reales: acceso, tiempo, herramientas, sustitución y criterios técnicos. Así pueden convertirse en requisitos de ingeniería evaluables."
+  },
+  {
+    "id": 8,
+    "category": 0,
+    "text": "Dos alternativas tienen impactos muy similares dentro del margen de error. ¿Qué conviene hacer?",
+    "options": [
+      "Analizar sensibilidad y declarar la incertidumbre antes de jerarquizarlas",
+      "Declarar vencedora la de menor cifra decimal",
+      "Ocultar el margen de error",
+      "Dar una aprobación ambiental global"
+    ],
+    "correctIndex": 0,
+    "explanation": "Las diferencias pequeñas pueden carecer de significado cuando los inventarios son inciertos. Una evaluación honesta identifica datos sensibles y evita una clasificación artificialmente precisa."
+  },
+  {
+    "id": 101,
+    "category": 1,
+    "text": "Un repuesto urgente debe llegar en 36 horas. ¿Qué opción debe revisarse primero?",
+    "options": [
+      "La ruta con menores emisiones sin revisar el plazo",
+      "La disponibilidad de stock compatible y trazable dentro del plazo",
+      "El medio más barato sin verificar configuración",
+      "Un transportista seleccionado al azar"
+    ],
+    "correctIndex": 1,
+    "explanation": "Verificar una pieza cercana compatible puede evitar un transporte y proteger disponibilidad. Solo se puede autorizar tras confirmar configuración, trazabilidad, tiempo real y cancelación del movimiento alternativo."
+  },
+  {
+    "id": 102,
+    "category": 1,
+    "text": "La energía por metro cuadrado cae un 6 %, pero los kWh totales suben un 2 %. ¿Qué se informa?",
+    "options": [
+      "Que toda la instalación redujo energía un 6 %",
+      "Solo el incremento absoluto",
+      "Ambos resultados, periodo, actividad y variables relevantes",
+      "Que ya no hay emisiones"
+    ],
+    "correctIndex": 2,
+    "explanation": "La intensidad y el consumo absoluto miden cuestiones distintas. Presentarlos juntos evita que el crecimiento de actividad o cambios de superficie se conviertan en un titular engañoso."
+  },
+  {
+    "id": 103,
+    "category": 1,
+    "text": "Una medida energética podría reducir el caudal de extracción de un taller. ¿Qué decisión es responsable?",
+    "options": [
+      "Implantarla sin ensayos",
+      "Cancelar toda mejora para siempre",
+      "Medir después y no informar",
+      "Validar primero las condiciones técnicas y de seguridad con los responsables"
+    ],
+    "correctIndex": 3,
+    "explanation": "Los controles ambientales y energéticos no pueden rebajar la seguridad del proceso. Deben verificarse los límites de ventilación, la operación y la medición del ahorro bajo condiciones permitidas."
+  },
+  {
+    "id": 104,
+    "category": 1,
+    "text": "¿Qué hace comparables dos presupuestos de emisiones logísticas?",
+    "options": [
+      "Usar los mismos tramos, masa, unidad funcional y reglas de asignación",
+      "Elegir la estimación comercial más baja",
+      "Comparar distintos destinos",
+      "Omitir el último trayecto"
+    ],
+    "correctIndex": 0,
+    "explanation": "El mismo perímetro, modos, distancias y método de asignación permiten una comparación defendible. Las promesas de un proveedor no son equivalentes a actividad verificada."
+  },
+  {
+    "id": 105,
+    "category": 1,
+    "text": "Para reducir viajes de mantenimiento, ¿qué se debe analizar además de los kilómetros?",
+    "options": [
+      "Solo el kilometraje teórico",
+      "Consolidación de tareas, disponibilidad, repetición de trabajos y configuración",
+      "El número de correos del equipo",
+      "La marca del vehículo"
+    ],
+    "correctIndex": 1,
+    "explanation": "Una visita combinada puede evitar desplazamientos, pero un fallo de planificación puede aumentar retrabajos o indisponibilidad. Debe compararse el servicio realmente completado."
+  },
+  {
+    "id": 106,
+    "category": 1,
+    "text": "Un análisis de vuelos incluye CO₂, pero no efectos no CO₂. ¿Qué conclusión procede?",
+    "options": [
+      "Es una evaluación climática completa",
+      "Los efectos no CO₂ siempre son nulos",
+      "Informar del alcance y reconocer los efectos no evaluados",
+      "Multiplicar arbitrariamente el CO₂"
+    ],
+    "correctIndex": 2,
+    "explanation": "Los efectos de NOx y formación de estelas, entre otros, dependen de condiciones y requieren metodologías apropiadas. No deben inferirse reducciones climáticas totales a partir de un cálculo parcial."
+  },
+  {
+    "id": 107,
+    "category": 1,
+    "text": "Un vuelo usa una mezcla SAF. ¿Qué afirmación es correcta?",
+    "options": [
+      "Ha sido un vuelo sin emisiones",
+      "El combustible garantiza neutralidad climática",
+      "No hace falta ninguna trazabilidad",
+      "Su balance GEI de ciclo de vida puede estudiarse con método y evidencias definidos"
+    ],
+    "correctIndex": 3,
+    "explanation": "La combustión sigue produciendo emisiones. Un posible beneficio relativo del SAF depende de vía de producción, mezcla, comparador, cadena de custodia y método; no implica cero emisiones en el avión."
+  },
+  {
+    "id": 108,
+    "category": 1,
+    "text": "La factura eléctrica baja tras una reforma, pero también cambia el horario del edificio. ¿Qué falta?",
+    "options": [
+      "Comparar consumo medido con una línea base ajustada por actividad y condiciones",
+      "Atribuir todo el descenso a la reforma",
+      "Usar la factura como única prueba",
+      "Excluir el cambio de horario sin anotarlo"
+    ],
+    "correctIndex": 0,
+    "explanation": "Para atribuir ahorro a una intervención hay que separar sus efectos de clima, actividad, tarifas y horario. La factura económica y la energía física no son la misma medida."
+  },
+  {
+    "id": 201,
+    "category": 2,
+    "text": "Un embalaje reutilizable se diseña para 20 ciclos, pero solo logra cuatro. ¿Qué dato se emplea?",
+    "options": [
+      "Los 20 ciclos prometidos",
+      "Los ciclos observados, las pérdidas, la limpieza y el transporte de retorno",
+      "El nombre comercial del embalaje",
+      "Ninguna cifra"
+    ],
+    "correctIndex": 1,
+    "explanation": "La comparación debe referirse a entregas intactas y usos reales. Diseñar para reutilizar no demuestra que el circuito de devolución y mantenimiento funcione."
+  },
+  {
+    "id": 202,
+    "category": 2,
+    "text": "Una caja más ligera no ha superado el ensayo de vibración. ¿Qué procede?",
+    "options": [
+      "Usarla por su menor peso",
+      "Considerarla aprobada por el proveedor",
+      "Mantener la solución cualificada y completar la validación técnica",
+      "Dejar de documentar el embalaje"
+    ],
+    "correctIndex": 2,
+    "explanation": "La protección del componente forma parte de la función. Un daño podría generar nuevas piezas, residuos, costes y transportes, anulando cualquier aparente ventaja del menor peso."
+  },
+  {
+    "id": 203,
+    "category": 2,
+    "text": "Un almacén imprime, firma y escanea todos sus documentos. ¿Es un proceso sin papel?",
+    "options": [
+      "Sí, porque queda un PDF",
+      "Sí, si el escáner es eficiente",
+      "No importa conservar trazabilidad",
+      "No: hay que rediseñar el flujo manteniendo firma, control de versiones y contingencia"
+    ],
+    "correctIndex": 3,
+    "explanation": "Digitalizar un documento no equivale a eliminar el proceso físico. La desmaterialización exige registros electrónicos válidos, accesibles y controlados, también ante incidencias del sistema."
+  },
+  {
+    "id": 204,
+    "category": 2,
+    "text": "¿Cómo se mejora la recuperación de recortes de aleaciones?",
+    "options": [
+      "Separando materiales por especificación y conservando trazabilidad del lote",
+      "Mezclando todas las virutas",
+      "Eliminando etiquetas de material",
+      "Declarando reciclaje sin evidencias"
+    ],
+    "correctIndex": 0,
+    "explanation": "La clasificación por aleación y contaminación evita degradar materiales y permite definir destinos viables. La recuperación debe documentarse y respetar requisitos de seguridad y calidad."
+  },
+  {
+    "id": 205,
+    "category": 2,
+    "text": "Tras una operación MRO aparecen residuos de recubrimientos y disolventes. ¿Qué enfoque corresponde?",
+    "options": [
+      "Arrojarlos al residuo común",
+      "Identificar peligrosidad, segregarlos y documentar el gestor y la retirada",
+      "Diluirlos con agua",
+      "Contabilizarlos como material reciclado"
+    ],
+    "correctIndex": 1,
+    "explanation": "La segregación, los recipientes adecuados y la trazabilidad dependen de la clasificación de residuos y normas aplicables. No se deben presentar como valorizados sin comprobación del tratamiento."
+  },
+  {
+    "id": 206,
+    "category": 2,
+    "text": "Ante un actuador obsoleto, ¿cuándo tiene sentido reparar en lugar de sustituir?",
+    "options": [
+      "Siempre, aunque no cumpla requisitos",
+      "Solo cuando lo anuncie el proveedor",
+      "Cuando la reparación es técnicamente aprobable y se comparan impactos, disponibilidad y vida restante",
+      "Nunca, porque las piezas nuevas son mejores"
+    ],
+    "correctIndex": 2,
+    "explanation": "Una reparación viable puede extender vida útil y evitar producción adicional. Deben incluirse cualificación, límites de vida, consumo de recursos, seguridad y cumplimiento de configuración."
+  },
+  {
+    "id": 207,
+    "category": 2,
+    "text": "Un material presume de contenido reciclado. ¿Qué documentación lo respalda?",
+    "options": [
+      "Una fotografía de chatarra",
+      "Un color diferente",
+      "Una afirmación sin fecha",
+      "Trazabilidad y metodología verificable para el porcentaje y el alcance del producto"
+    ],
+    "correctIndex": 3,
+    "explanation": "El porcentaje puede depender de mezcla de materias primas y reglas de asignación. Deben declararse el alcance y el respaldo documental, sin inferir automáticamente menor impacto total."
+  },
+  {
+    "id": 208,
+    "category": 2,
+    "text": "¿Qué acción se sitúa antes de reciclar en una estrategia circular?",
+    "options": [
+      "Evitar consumo innecesario y prolongar el uso técnicamente aceptable",
+      "Generar más residuos separables",
+      "Comprar repuestos de sobra",
+      "Sustituir componentes todavía aptos"
+    ],
+    "correctIndex": 0,
+    "explanation": "Prevenir consumo, reparar y reutilizar cuando sea seguro suele evitar más recursos que gestionar el residuo una vez generado. La jerarquía debe aplicarse junto a requisitos técnicos y de seguridad."
+  },
+  {
+    "id": 301,
+    "category": 3,
+    "text": "Una ficha de datos de seguridad (FDS) acompaña a un recubrimiento. ¿Qué demuestra por sí sola?",
+    "options": [
+      "La aprobación completa del retrofit",
+      "Información de seguridad aplicable, no toda la conformidad REACH ni la cualificación técnica",
+      "Que cualquier uso está autorizado",
+      "Que la sustancia no requiere controles"
+    ],
+    "correctIndex": 1,
+    "explanation": "La FDS tiene alcance y función determinados. Hay que comprobar obligaciones de sustancia, mezcla o artículo, uso previsto, restricciones, exposición y el proceso interno de aprobación."
+  },
+  {
+    "id": 302,
+    "category": 3,
+    "text": "Un recubrimiento alternativo promete menos sustancias problemáticas. ¿Cuándo se puede liberar?",
+    "options": [
+      "Cuando marketing lo considere ecológico",
+      "En cuanto llegue la muestra",
+      "Después de completar las comprobaciones químicas, técnicas, de proceso y aprobación aplicables",
+      "Si se prueba sin registro"
+    ],
+    "correctIndex": 2,
+    "explanation": "La sustitución necesita evidencia de composición y obligaciones relevantes, rendimiento, compatibilidad y controles del proceso. Promesa ambiental y conformidad no son sinónimos."
+  },
+  {
+    "id": 303,
+    "category": 3,
+    "text": "Un proveedor entrega una declaración de conformidad de hace cinco años. ¿Qué haces?",
+    "options": [
+      "Aceptarla sin revisión",
+      "Ignorar cualquier otra prueba",
+      "Renunciar a comprobar el uso del componente",
+      "Verificar vigencia, alcance, revisión y correspondencia con la pieza suministrada"
+    ],
+    "correctIndex": 3,
+    "explanation": "Una declaración puede ser útil, pero una versión antigua o genérica puede no cubrir materiales, umbrales o condiciones actuales. La evidencia debe vincularse a la pieza y obligación concreta."
+  },
+  {
+    "id": 304,
+    "category": 3,
+    "text": "La trazabilidad de minerales 3TG termina en el distribuidor directo. ¿Cuál es la respuesta adecuada?",
+    "options": [
+      "Pedir información de niveles anteriores y documentar riesgos y diligencia debida",
+      "Dar por resuelto todo el suministro",
+      "Afirmar que no existen riesgos",
+      "Cambiar la categoría del indicador"
+    ],
+    "correctIndex": 0,
+    "explanation": "Las cadenas multicapa exigen información sobre proveedores y origen, dentro de los procesos aplicables de diligencia debida. No conocer niveles anteriores no prueba ausencia de riesgos."
+  },
+  {
+    "id": 305,
+    "category": 3,
+    "text": "Surge un indicio de abuso laboral en un proveedor indirecto. ¿Qué respuesta es proporcionada?",
+    "options": [
+      "Ocultar el hallazgo por ser indirecto",
+      "Evaluar la evidencia, escalar, investigar y establecer acciones correctivas y seguimiento",
+      "Rescindir sin análisis en todos los casos",
+      "Publicar que todo está conforme"
+    ],
+    "correctIndex": 1,
+    "explanation": "La diligencia debida exige una respuesta basada en riesgo, con responsables, implicación del proveedor y medidas de prevención y reparación adecuadas. Un hallazgo requiere gestión, no negación."
+  },
+  {
+    "id": 306,
+    "category": 3,
+    "text": "Una caja de madera tiene marca ISPM 15, pero también señales de daño. ¿Qué es razonable?",
+    "options": [
+      "La marca autoriza cualquier condición física",
+      "Basta con fotografiarla",
+      "Verificar marca y estado real; retener o escalar si existen indicios que lo justifiquen",
+      "Aprobarla automáticamente por llevar sello"
+    ],
+    "correctIndex": 2,
+    "explanation": "La marca fitosanitaria y la inspección física aportan evidencias distintas. La decisión debe seguir el procedimiento de embalajes y control de riesgo aplicable, sin presuponer conformidad total."
+  },
+  {
+    "id": 307,
+    "category": 3,
+    "text": "Hay un repuesto más rápido, pero su configuración no está verificada. ¿Qué se autoriza?",
+    "options": [
+      "Instalarlo para evitar retraso",
+      "Usarlo si el coste es menor",
+      "Cambiar su etiqueta",
+      "Detener la liberación hasta verificar compatibilidad y trazabilidad aprobadas"
+    ],
+    "correctIndex": 3,
+    "explanation": "La rapidez no reemplaza configuración, conformidad ni aeronavegabilidad. La opción logística solo es válida cuando los requisitos técnicos y documentales están satisfechos."
+  },
+  {
+    "id": 308,
+    "category": 3,
+    "text": "Una auditoría detecta una carencia documental repetida. ¿Qué cierra eficazmente el problema?",
+    "options": [
+      "Acción correctiva con causa raíz, responsable, plazo y verificación de eficacia",
+      "Corregir solo el archivo encontrado",
+      "Borrar la observación",
+      "Esperar al próximo auditor"
+    ],
+    "correctIndex": 0,
+    "explanation": "La corrección puntual remedia un ejemplo; una CAPA aborda causas y verifica que no reaparezca. El cierre debe acompañarse de evidencia de efectividad."
+  },
+  {
+    "id": 401,
+    "category": 4,
+    "text": "Faltan datos primarios de un proveedor sobre emisiones indirectas. ¿Qué se reporta?",
+    "options": [
+      "Cero hasta recibirlos",
+      "Estimaciones identificadas, fuente, límites y un plan para mejorar el dato",
+      "Una reducción certificada por defecto",
+      "Solo los datos favorables"
+    ],
+    "correctIndex": 1,
+    "explanation": "Un dato ausente no es un impacto nulo. Pueden emplearse factores o proxies adecuados cuando se indiquen método, incertidumbre y plan de sustitución por datos de mayor calidad."
+  },
+  {
+    "id": 402,
+    "category": 4,
+    "text": "Un informe afirma «producto sostenible» sin delimitar la comparación. ¿Qué problema existe?",
+    "options": [
+      "Ninguno, es un término técnico completo",
+      "La frase basta si lleva un icono",
+      "No define qué característica, contra qué referencia ni con qué evidencia",
+      "Puede considerarse una homologación"
+    ],
+    "correctIndex": 2,
+    "explanation": "Las declaraciones genéricas inducen a error si ocultan límites y criterios. Es preferible especificar, por ejemplo, la reducción estimada de un consumo concreto bajo condiciones definidas."
+  },
+  {
+    "id": 403,
+    "category": 4,
+    "text": "Un impacto de un proyecto no está medido. ¿Cómo se introduce en la evaluación?",
+    "options": [
+      "Como cero",
+      "No se menciona",
+      "Como resultado verificado",
+      "Como desconocido o estimado, con fuente y nivel de incertidumbre"
+    ],
+    "correctIndex": 3,
+    "explanation": "La ausencia de medida no justifica contabilizar cero. Los intervalos y los análisis de sensibilidad ayudan a tomar decisiones sin fingir precisión."
+  },
+  {
+    "id": 404,
+    "category": 4,
+    "text": "¿Qué mejora una comunicación pública sobre una reducción ambiental?",
+    "options": [
+      "Base de comparación, periodo, límite, método y revisión de la evidencia",
+      "Una fotografía llamativa",
+      "Suprimir las excepciones",
+      "No incluir un responsable"
+    ],
+    "correctIndex": 0,
+    "explanation": "La trazabilidad de una afirmación depende de saber qué se comparó, dónde, cuándo y con qué método, además de reconocer condiciones y aspectos excluidos."
+  },
+  {
+    "id": 405,
+    "category": 4,
+    "text": "Un KPI mejora por unidad producida, pero empeora en valor absoluto. ¿Qué informe es defendible?",
+    "options": [
+      "Presentar solo la intensidad",
+      "Mostrar ambos KPI y explicar cambios de actividad y límites",
+      "Eliminar el dato absoluto",
+      "Cambiar el año base sin explicarlo"
+    ],
+    "correctIndex": 1,
+    "explanation": "La mejora relativa puede convivir con un aumento de impacto total. Un cuadro de mando fiable permite interpretar ambos y su contexto."
+  },
+  {
+    "id": 406,
+    "category": 4,
+    "text": "Un comité aprueba continuar un proyecto con datos aún incompletos. ¿Qué debe constar?",
+    "options": [
+      "Solo una intención positiva",
+      "Una nota sin fecha",
+      "Riesgos, condiciones, responsables, decisión y puntos de revisión",
+      "Una etiqueta «aprobado ambientalmente»"
+    ],
+    "correctIndex": 2,
+    "explanation": "La decisión condicionada debe identificar asuntos que podrían modificarla y quién los cerrará. Evaluación de sostenibilidad y autorización técnica tienen ámbitos distintos."
+  },
+  {
+    "id": 407,
+    "category": 4,
+    "text": "Una formación menciona una obligación legal. ¿Equivale a una aprobación de cumplimiento?",
+    "options": [
+      "Sí, tras aprobar el cuestionario",
+      "Sí, si el resultado supera el 90 %",
+      "Sí, si lo dice el juego",
+      "No: el aprendizaje no sustituye las comprobaciones y autorizaciones aplicables"
+    ],
+    "correctIndex": 3,
+    "explanation": "Una app puede ayudar a comprender requisitos, pero la conformidad exige evidencia, responsabilidades y procesos competentes para cada caso real."
+  },
+  {
+    "id": 408,
+    "category": 4,
+    "text": "Un proyecto compra créditos de carbono y anuncia que ha eliminado sus emisiones. ¿Qué falta?",
+    "options": [
+      "Distinguir emisiones reales, reducciones propias y créditos según las reglas y afirmaciones aplicables",
+      "Solo el justificante del pago",
+      "Nada: cualquier crédito elimina emisiones físicamente",
+      "Un logotipo de compensación"
+    ],
+    "correctIndex": 0,
+    "explanation": "Comprar créditos no elimina las emisiones físicas del proyecto. La comunicación debe diferenciar reducciones directas, inventario y uso de créditos, evitando equivalencias no respaldadas."
+  },
+  {
+    "id": 501,
+    "category": 5,
+    "text": "Un A400M está inmovilizado y se propone un repuesto próximo sin historial documental completo. ¿Qué prioridad tiene la decisión?",
+    "options": [
+      "Liberarlo por proximidad",
+      "Verificar configuración, trazabilidad y aptitud antes de elegir el transporte",
+      "Instalarlo y revisar papeles después",
+      "Omitir el problema del informe"
+    ],
+    "correctIndex": 1,
+    "explanation": "La resiliencia operativa no consiste en saltarse controles. Una alternativa local puede mejorar plazo y logística solo si el componente es elegible y la documentación está cerrada."
+  },
+  {
+    "id": 502,
+    "category": 5,
+    "text": "Tres reparaciones generan siempre transporte urgente. ¿Cuál es una mejora duradera?",
+    "options": [
+      "Reducir el número de informes",
+      "Prohibir todo transporte aéreo",
+      "Investigar fallos recurrentes, previsión, stock y tiempos de reparación con responsables",
+      "Cambiar el color del cuadro de mando"
+    ],
+    "correctIndex": 2,
+    "explanation": "Atacar la causa de las urgencias puede mejorar disponibilidad y consumo de recursos simultáneamente. Deben medirse los resultados bajo condiciones comparables."
+  },
+  {
+    "id": 503,
+    "category": 5,
+    "text": "Un componente crítico corre riesgo de obsolescencia. ¿Qué análisis anticipa mejor el problema?",
+    "options": [
+      "Comprar sin límite todas las unidades disponibles",
+      "Esperar a la última avería",
+      "Eliminar el plan de mantenimiento",
+      "Evaluar vida restante, alternativas cualificables, reparabilidad y suministro"
+    ],
+    "correctIndex": 3,
+    "explanation": "La gestión de obsolescencia conecta ingeniería, compras y operaciones. Las decisiones requieren datos sobre vida útil, configuración, validación y exposición del suministro."
+  },
+  {
+    "id": 504,
+    "category": 5,
+    "text": "En un despliegue, el agua usada para limpieza podría salir fuera de un sistema controlado. ¿Qué procede?",
+    "options": [
+      "Identificar el flujo, contenerlo y aplicar los procedimientos y controles del emplazamiento",
+      "Descargarla porque es agua",
+      "Añadir detergente y continuar",
+      "Registrar únicamente el volumen teórico"
+    ],
+    "correctIndex": 0,
+    "explanation": "La continuidad operativa debe incorporar límites de instalación, vertidos y sustancias. No se debe asumir que un agua de proceso puede verterse sin revisión."
+  },
+  {
+    "id": 505,
+    "category": 5,
+    "text": "Un proveedor clave anuncia un plazo de suministro incierto. ¿Qué respuesta aporta resiliencia?",
+    "options": [
+      "Confiar exclusivamente en su optimismo",
+      "Revisar criticidad, alternativas técnicamente cualificadas, inventario y contingencia",
+      "Aprobar piezas no verificadas",
+      "Cancelar todo mantenimiento"
+    ],
+    "correctIndex": 1,
+    "explanation": "Una respuesta sólida conecta evaluación de riesgos, configuración y acciones preventivas. La diversificación solo funciona si las alternativas cumplen los requisitos aplicables."
+  },
+  {
+    "id": 506,
+    "category": 5,
+    "text": "Un fenómeno meteorológico interrumpe una ruta de repuestos. ¿Qué debe revisarse?",
+    "options": [
+      "Solo el coste inicial",
+      "La imagen corporativa",
+      "Seguridad, plazo, alternativas verificadas, nuevas rutas y evidencia del cambio",
+      "La media anual de temperaturas"
+    ],
+    "correctIndex": 2,
+    "explanation": "La decisión debe actualizarse con el contexto real de la interrupción. Mantener una estimación anterior sin revisar riesgos y movimientos adicionales conduce a conclusiones erróneas."
+  },
+  {
+    "id": 507,
+    "category": 5,
+    "text": "Los técnicos reportan que un conjunto exige demasiados desmontajes para repararlo. ¿Qué uso tiene ese dato?",
+    "options": [
+      "No tiene valor fuera del taller",
+      "Sirve únicamente para valorar a los técnicos",
+      "Debe desaparecer al cerrar la incidencia",
+      "Retroalimentar ingeniería con tiempos, accesos, riesgos y posibilidades de mejora"
+    ],
+    "correctIndex": 3,
+    "explanation": "La experiencia MRO puede orientar un diseño más mantenible y prolongar la vida útil. Las propuestas deben someterse a los controles de ingeniería y seguridad pertinentes."
+  },
+  {
+    "id": 508,
+    "category": 5,
+    "text": "Un proyecto se compara con datos de utilización muy inciertos. ¿Cómo se toma una decisión responsable?",
+    "options": [
+      "Analizar escenarios, umbrales y revisar la decisión con nuevos datos",
+      "Usar siempre el escenario más optimista",
+      "Introducir cifras sin fuente",
+      "Presentar como definitiva la primera estimación"
+    ],
+    "correctIndex": 0,
+    "explanation": "La sensibilidad identifica supuestos que pueden invertir la elección. Una decisión condicionada necesita responsables, límites y un mecanismo de revisión."
+  }
 ];
 
 export function getRandomQuestion(category: number, usedIds: number[]): Question | null {

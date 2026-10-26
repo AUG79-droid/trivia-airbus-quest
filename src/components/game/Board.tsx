@@ -83,7 +83,7 @@ export default function Board({
   });
 
   return (
-    <div className="board-shell" aria-label="Tablero de TAS Sustainability Quest">
+    <div className="board-shell" aria-label="Tablero de Sustainability Quest">
       <svg viewBox="0 0 600 600" className="board-svg" role="img">
         <defs>
           <radialGradient id="board-background" cx="50%" cy="45%">

@@ -23,9 +23,9 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
           <span /><span /><span /><span /><span /><span />
         </div>
         <p className="eyebrow">APRENDER · DECIDIR · AVANZAR</p>
-        <h1><span>TAS</span> Sustainability Quest</h1>
+        <h1>Sustainability Quest</h1>
         <p className="setup-lead">
-          Recorre el tablero, aplica criterios de sostenibilidad y reúne las seis insignias de misión.
+          Recorre el tablero y resuelve retos de ingeniería, operaciones, materiales, compras, evidencias y riesgos. Consigue las seis insignias de aprendizaje.
         </p>
 
         <div className="mission-flow" aria-label="Cómo se juega">

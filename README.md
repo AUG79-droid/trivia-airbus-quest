@@ -7,8 +7,8 @@ Juego de tablero colaborativo de sostenibilidad aplicada con **48 preguntas situ
 2. Operaciones y energía.
 3. Circularidad y materiales.
 4. Cadena de suministro y cumplimiento.
-5. Evidencia y gobernanza.
-6. Riesgos y resiliencia.
+5. Gobernanza.
+6. Gestión de riesgos.
 
 ## Dinámica
 Una a cuatro personas pueden tirar el dado, elegir rutas, responder preguntas con feedback razonado y conseguir las seis insignias. El recorrido termina con un reto final. Se conserva el funcionamiento del tablero y la puntuación; las categorías y preguntas se han reemplazado para ampliar el alcance.

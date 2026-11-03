@@ -27,7 +27,7 @@ export const CATEGORY_SHORT_NAMES = [
   "Ecodiseño",
   "Operaciones",
   "Circularidad",
-  "Compras",
+  "Cadena de suministro",
   "Gobernanza",
   "Gestión de riesgos"
 ];

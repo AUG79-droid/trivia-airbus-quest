@@ -132,6 +132,10 @@ export default function Board({
         {CATEGORY_SHORT_NAMES.map((name, index) => {
           const angle = radians(spokeAngleDeg(index));
           const radius = RING_R + 54;
+          const labelX = CX + (radius + 13) * Math.cos(angle);
+          const labelLines = index === 3 ? ['Cadena de', 'suministro']
+            : index === 5 ? ['Gestión de', 'riesgos']
+            : [name];
           return (
             <g key={name}>
               <circle
@@ -141,13 +145,21 @@ export default function Board({
                 fill={CATEGORY_COLORS[index]}
               />
               <text
-                x={CX + (radius + 13) * Math.cos(angle)}
+                x={labelX}
                 y={CY + (radius + 13) * Math.sin(angle)}
                 textAnchor="middle"
                 dominantBaseline="middle"
                 className="board-category-label"
               >
-                {name}
+                {labelLines.map((line, lineIndex) => (
+                  <tspan
+                    key={line}
+                    x={labelX}
+                    dy={lineIndex === 0 ? (labelLines.length > 1 ? '-0.55em' : '0') : '1.1em'}
+                  >
+                    {line}
+                  </tspan>
+                ))}
               </text>
             </g>
           );

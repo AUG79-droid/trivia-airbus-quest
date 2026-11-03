@@ -19,8 +19,8 @@ export const CATEGORY_NAMES = [
   "Operaciones y energía",
   "Circularidad y materiales",
   "Cadena de suministro y cumplimiento",
-  "Evidencia y gobernanza",
-  "Riesgos y resiliencia"
+  "Gobernanza",
+  "Gestión de riesgos"
 ];
 
 export const CATEGORY_SHORT_NAMES = [
@@ -28,8 +28,8 @@ export const CATEGORY_SHORT_NAMES = [
   "Operaciones",
   "Circularidad",
   "Compras",
-  "Evidencia",
-  "Resiliencia"
+  "Gobernanza",
+  "Gestión de riesgos"
 ];
 
 export const PLAYER_COLORS = ['#f97316', '#e879f9', '#84cc16', '#facc15'];

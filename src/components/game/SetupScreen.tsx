@@ -25,7 +25,7 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
         <p className="eyebrow">APRENDER · DECIDIR · AVANZAR</p>
         <h1><span>Sustainability</span> Quest</h1>
         <p className="setup-lead">
-          Recorre el tablero y resuelve retos de ingeniería, operaciones, materiales, compras, evidencias y riesgos. Consigue las seis insignias de aprendizaje.
+          Explora ecodiseño, operaciones, circularidad, cadena de suministro, gobernanza y gestión de riesgos en un tablero de seis categorías. Consigue las seis insignias de aprendizaje.
         </p>
 
         <div className="mission-flow" aria-label="Cómo se juega">

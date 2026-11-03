@@ -27,6 +27,7 @@ describe("Valida el alcance transversal del temario", () => {
   });
   it("Las categorías se muestran como Gobernanza y Gestión de riesgos.", () => {
     expect(CATEGORY_NAMES.slice(4)).toEqual(["Gobernanza", "Gestión de riesgos"]);
+    expect(CATEGORY_SHORT_NAMES[3]).toBe("Cadena de suministro");
     expect(CATEGORY_SHORT_NAMES.slice(4)).toEqual(["Gobernanza", "Gestión de riesgos"]);
   });
   it("Las 48 preguntas presentan identificadores distintos y no incluyen categorías previas de naturaleza.", () => {

@@ -25,6 +25,10 @@ describe("Valida el alcance transversal del temario", () => {
     }
     expect(distribution).toEqual([12,12,12,12]);
   });
+  it("Las categorías se muestran como Gobernanza y Gestión de riesgos.", () => {
+    expect(CATEGORY_NAMES.slice(4)).toEqual(["Gobernanza", "Gestión de riesgos"]);
+    expect(CATEGORY_SHORT_NAMES.slice(4)).toEqual(["Gobernanza", "Gestión de riesgos"]);
+  });
   it("Las 48 preguntas presentan identificadores distintos y no incluyen categorías previas de naturaleza.", () => {
     expect(new Set(QUESTIONS.map(q => q.id)).size).toBe(48);
     expect(CATEGORY_NAMES.join(' | ').toLowerCase()).not.toMatch(/naturaleza|ecosistemas|\\bnature\\b|\\becosystems\\b/);

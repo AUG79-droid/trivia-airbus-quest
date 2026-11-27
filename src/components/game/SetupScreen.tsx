@@ -8,6 +8,9 @@ interface SetupScreenProps {
 }
 
 export default function SetupScreen({ onStart }: SetupScreenProps) {
+  const track = new URLSearchParams(window.location.search).get('track');
+  const hasSelectedMode = track === 'general' || track === 'climate';
+  const [startError, setStartError] = useState(false);
   const [count, setCount] = useState(1);
   const [names, setNames] = useState(['Participante 1', 'Participante 2', 'Participante 3', 'Participante 4']);
 
@@ -15,7 +18,11 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
     const selectedNames = names
       .slice(0, count)
       .map((name, index) => name.trim() || `Participante ${index + 1}`);
-    onStart(selectedNames);
+    if (!hasSelectedMode) return;
+    const handled = !document.dispatchEvent(new CustomEvent('sn-pilot:quest-start', {
+      cancelable: true, detail: { start: () => onStart(selectedNames) }
+    }));
+    setStartError(!handled);
   };
 
   return (
@@ -27,7 +34,25 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
         <p className="eyebrow">APRENDER · DECIDIR · AVANZAR</p>
         <h1><span>{CLIMATE_MODE ? "Adaptación climática" : "Sustainability"}</span> Quest</h1>
         <p className="setup-lead">{CLIMATE_MODE ? "Practica decisiones aeronáuticas ficticias sobre riesgos físicos, vulnerabilidad del producto, diseño, operaciones, fenómenos extremos y evidencias. El juego no autoriza cambios técnicos ni operativos." : "Explora ecodiseño, operaciones, circularidad, cadena de suministro, gobernanza y gestión de riesgos en un tablero de seis categorías. Consigue las seis insignias de aprendizaje."}</p>
-        <p><a className="primary-button" href={CLIMATE_MODE ? "./" : "?track=climate"}>{CLIMATE_MODE ? "Sustainability Quest general" : "Reto de adaptación climática"}</a></p>
+        <section className="quest-mode-picker" aria-labelledby="mode-title">
+          <h2 id="mode-title">1. Elige la modalidad</h2>
+          <p>Selecciona uno de los dos juegos. Cada uno tiene sus propias preguntas y evaluaciones.</p>
+          <div className="quest-mode-grid">
+            <a data-testid="mode-general" href="?track=general" className={'quest-mode-option' + (track === 'general' ? ' active' : '')} aria-current={track === 'general' ? 'true' : undefined}>
+              <span className="quest-mode-label">MODALIDAD 1</span>
+              <strong>Sostenibilidad general</strong>
+              <span>Ecodiseño, operaciones, circularidad, suministro, gobernanza y riesgos.</span>
+              <span className="quest-mode-cta">{track === 'general' ? '✓ Seleccionada' : 'Elegir esta modalidad →'}</span>
+            </a>
+            <a data-testid="mode-climate" href="?track=climate" className={'quest-mode-option climate' + (track === 'climate' ? ' active' : '')} aria-current={track === 'climate' ? 'true' : undefined}>
+              <span className="quest-mode-label">MODALIDAD 2</span>
+              <strong>Adaptación climática</strong>
+              <span>Riesgos físicos, resiliencia del producto, diseño, operaciones y fenómenos extremos.</span>
+              <span className="quest-mode-cta">{track === 'climate' ? '✓ Seleccionada' : 'Elegir esta modalidad →'}</span>
+            </a>
+          </div>
+          <p className="quest-mode-hint">180 preguntas por modalidad · 6 categorías · 3 niveles</p>
+        </section>
 
         <div className="mission-flow" aria-label="Cómo se juega">
           <div><strong>1</strong><span>Tira el dado</span></div>
@@ -47,9 +72,9 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
 
       <section className="setup-card" aria-labelledby="setup-title">
         <div>
-          <p className="eyebrow">CONFIGURA LA PARTIDA</p>
+          <p className="eyebrow">2. CONFIGURA LA PARTIDA</p>
           <h2 id="setup-title">¿Quién juega?</h2>
-          <p>El modo individual está pensado para formación autónoma. También podéis competir hasta cuatro personas.</p>
+          <p>Elige de uno a cuatro participantes. Para medir el aprendizaje individual, juega en solitario; con varios participantes la evaluación es conjunta.</p>
         </div>
 
         <fieldset className="player-count">
@@ -87,7 +112,14 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
           ))}
         </div>
 
-        <button type="button" className="primary-button start-button" onClick={start}>Comenzar misión</button>
+        <div className="quest-assessment-step">
+          <p className="eyebrow">3. EVALUACIÓN INICIAL</p>
+          <h3>Antes de jugar: 4 preguntas</h3>
+          <p>Responde, consulta la corrección y comienza la partida. Al terminar tendrás una evaluación final.</p>
+          <button type="button" className="primary-button start-button" disabled={!hasSelectedMode} onClick={start}>Realizar evaluación inicial →</button>
+          {!hasSelectedMode && <p className="quest-mode-hint">Selecciona primero una modalidad en el paso 1.</p>}
+          {startError && <p role="alert">La evaluación no está disponible. Recarga la página e inténtalo de nuevo.</p>}
+        </div>
         <p className="privacy-note">La partida se guarda únicamente en este navegador para poder continuar tras recargar.</p>
       </section>
     </main>

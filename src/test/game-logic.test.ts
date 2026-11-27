@@ -25,9 +25,9 @@ describe('tablero', () => {
 });
 
 describe('preguntas', () => {
-  it('ofrece ocho preguntas formativas por categoría', () => {
+  it('ofrece treinta preguntas formativas por categoría', () => {
     for (let category = 0; category < 6; category += 1) {
-      expect(QUESTIONS.filter((question) => question.category === category)).toHaveLength(8);
+      expect(QUESTIONS.filter((question) => question.category === category)).toHaveLength(30);
     }
   });
 

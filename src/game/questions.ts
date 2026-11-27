@@ -1,4 +1,5 @@
-import { Question } from './types';
+import { Question, Difficulty } from './types';
+import { EXTRA_GENERAL_QUESTIONS } from './expanded-general';
 import { CLIMATE_MODE, CLIMATE_QUESTIONS } from './climate';
 
 /** 48 escenarios aplicados: ocho por categoría. Datos y decisiones didácticos, no aprobaciones reales de Airbus. */
@@ -14,7 +15,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "La masa del embalaje"
     ],
     "correctIndex": 1,
-    "explanation": "Primero se define una función equivalente, la conformidad y el horizonte de servicio. Después se comparan materiales, mantenimiento, energía, repuestos y fin de vida; una sola cifra no representa todo el ciclo."
+    "explanation": "Primero se define una función equivalente, la conformidad y el horizonte de servicio. Después se comparan materiales, mantenimiento, energía, repuestos y fin de vida; una sola cifra no representa todo el ciclo.",
+    "difficulty": "foundation"
   },
   {
     "id": 2,
@@ -27,7 +29,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "La fotografía del proveedor"
     ],
     "correctIndex": 2,
-    "explanation": "La frontera debe abarcar las etapas significativas para la decisión: extracción y procesamiento de materiales, fabricación, transporte, operación, mantenimiento y final de vida, evitando omisiones materiales."
+    "explanation": "La frontera debe abarcar las etapas significativas para la decisión: extracción y procesamiento de materiales, fabricación, transporte, operación, mantenimiento y final de vida, evitando omisiones materiales.",
+    "difficulty": "foundation"
   },
   {
     "id": 3,
@@ -40,7 +43,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Completar las verificaciones técnicas antes de comparar opciones aptas"
     ],
     "correctIndex": 3,
-    "explanation": "La reparabilidad solo aporta valor cuando el componente mantiene integridad, seguridad y configuración aprobadas. Primero se valida la reparación; después se comparan alternativas conformes."
+    "explanation": "La reparabilidad solo aporta valor cuando el componente mantiene integridad, seguridad y configuración aprobadas. Primero se valida la reparación; después se comparan alternativas conformes.",
+    "difficulty": "foundation"
   },
   {
     "id": 4,
@@ -53,7 +57,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Elegir por el color del material"
     ],
     "correctIndex": 0,
-    "explanation": "Una pieza más duradera podría reducir sustituciones, aunque su fabricación inicial tenga más carga. Deben examinarse durabilidad real, mantenimiento y condiciones de uso bajo una misma unidad funcional."
+    "explanation": "Una pieza más duradera podría reducir sustituciones, aunque su fabricación inicial tenga más carga. Deben examinarse durabilidad real, mantenimiento y condiciones de uso bajo una misma unidad funcional.",
+    "difficulty": "applied"
   },
   {
     "id": 5,
@@ -66,7 +71,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Diseñar solo para el menor precio inicial"
     ],
     "correctIndex": 1,
-    "explanation": "La modularidad, el acceso y las interfaces documentadas pueden facilitar reparación y actualización. Su beneficio depende de validación técnica y de evitar costes o impactos desproporcionados en otros procesos."
+    "explanation": "La modularidad, el acceso y las interfaces documentadas pueden facilitar reparación y actualización. Su beneficio depende de validación técnica y de evitar costes o impactos desproporcionados en otros procesos.",
+    "difficulty": "applied"
   },
   {
     "id": 6,
@@ -79,7 +85,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "La opinión de marketing"
     ],
     "correctIndex": 2,
-    "explanation": "Que exista una tecnología de reciclado no demuestra recogida, viabilidad a escala ni calidad adecuada del material recuperado. La afirmación necesita límites, datos y una vía real de recuperación."
+    "explanation": "Que exista una tecnología de reciclado no demuestra recogida, viabilidad a escala ni calidad adecuada del material recuperado. La afirmación necesita límites, datos y una vía real de recuperación.",
+    "difficulty": "applied"
   },
   {
     "id": 7,
@@ -92,7 +99,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Tiempo, accesos, herramientas, desmontaje y criterios de aceptación medidos"
     ],
     "correctIndex": 3,
-    "explanation": "Los indicadores de reparabilidad deben relacionarse con tareas reales: acceso, tiempo, herramientas, sustitución y criterios técnicos. Así pueden convertirse en requisitos de ingeniería evaluables."
+    "explanation": "Los indicadores de reparabilidad deben relacionarse con tareas reales: acceso, tiempo, herramientas, sustitución y criterios técnicos. Así pueden convertirse en requisitos de ingeniería evaluables.",
+    "difficulty": "advanced"
   },
   {
     "id": 8,
@@ -105,7 +113,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Dar una aprobación ambiental global"
     ],
     "correctIndex": 0,
-    "explanation": "Las diferencias pequeñas pueden carecer de significado cuando los inventarios son inciertos. Una evaluación honesta identifica datos sensibles y evita una clasificación artificialmente precisa."
+    "explanation": "Las diferencias pequeñas pueden carecer de significado cuando los inventarios son inciertos. Una evaluación honesta identifica datos sensibles y evita una clasificación artificialmente precisa.",
+    "difficulty": "advanced"
   },
   {
     "id": 101,
@@ -118,7 +127,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Un transportista seleccionado al azar"
     ],
     "correctIndex": 1,
-    "explanation": "Verificar una pieza cercana compatible puede evitar un transporte y proteger disponibilidad. Solo se puede autorizar tras confirmar configuración, trazabilidad, tiempo real y cancelación del movimiento alternativo."
+    "explanation": "Verificar una pieza cercana compatible puede evitar un transporte y proteger disponibilidad. Solo se puede autorizar tras confirmar configuración, trazabilidad, tiempo real y cancelación del movimiento alternativo.",
+    "difficulty": "foundation"
   },
   {
     "id": 102,
@@ -131,7 +141,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Que ya no hay emisiones"
     ],
     "correctIndex": 2,
-    "explanation": "La intensidad y el consumo absoluto miden cuestiones distintas. Presentarlos juntos evita que el crecimiento de actividad o cambios de superficie se conviertan en un titular engañoso."
+    "explanation": "La intensidad y el consumo absoluto miden cuestiones distintas. Presentarlos juntos evita que el crecimiento de actividad o cambios de superficie se conviertan en un titular engañoso.",
+    "difficulty": "foundation"
   },
   {
     "id": 103,
@@ -144,7 +155,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Validar primero las condiciones técnicas y de seguridad con los responsables"
     ],
     "correctIndex": 3,
-    "explanation": "Los controles ambientales y energéticos no pueden rebajar la seguridad del proceso. Deben verificarse los límites de ventilación, la operación y la medición del ahorro bajo condiciones permitidas."
+    "explanation": "Los controles ambientales y energéticos no pueden rebajar la seguridad del proceso. Deben verificarse los límites de ventilación, la operación y la medición del ahorro bajo condiciones permitidas.",
+    "difficulty": "foundation"
   },
   {
     "id": 104,
@@ -157,7 +169,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Omitir el último trayecto"
     ],
     "correctIndex": 0,
-    "explanation": "El mismo perímetro, modos, distancias y método de asignación permiten una comparación defendible. Las promesas de un proveedor no son equivalentes a actividad verificada."
+    "explanation": "El mismo perímetro, modos, distancias y método de asignación permiten una comparación defendible. Las promesas de un proveedor no son equivalentes a actividad verificada.",
+    "difficulty": "applied"
   },
   {
     "id": 105,
@@ -170,7 +183,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "La marca del vehículo"
     ],
     "correctIndex": 1,
-    "explanation": "Una visita combinada puede evitar desplazamientos, pero un fallo de planificación puede aumentar retrabajos o indisponibilidad. Debe compararse el servicio realmente completado."
+    "explanation": "Una visita combinada puede evitar desplazamientos, pero un fallo de planificación puede aumentar retrabajos o indisponibilidad. Debe compararse el servicio realmente completado.",
+    "difficulty": "applied"
   },
   {
     "id": 106,
@@ -183,7 +197,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Multiplicar arbitrariamente el CO₂"
     ],
     "correctIndex": 2,
-    "explanation": "Los efectos de NOx y formación de estelas, entre otros, dependen de condiciones y requieren metodologías apropiadas. No deben inferirse reducciones climáticas totales a partir de un cálculo parcial."
+    "explanation": "Los efectos de NOx y formación de estelas, entre otros, dependen de condiciones y requieren metodologías apropiadas. No deben inferirse reducciones climáticas totales a partir de un cálculo parcial.",
+    "difficulty": "applied"
   },
   {
     "id": 107,
@@ -196,7 +211,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Su balance GEI de ciclo de vida puede estudiarse con método y evidencias definidos"
     ],
     "correctIndex": 3,
-    "explanation": "La combustión sigue produciendo emisiones. Un posible beneficio relativo del SAF depende de vía de producción, mezcla, comparador, cadena de custodia y método; no implica cero emisiones en el avión."
+    "explanation": "La combustión sigue produciendo emisiones. Un posible beneficio relativo del SAF depende de vía de producción, mezcla, comparador, cadena de custodia y método; no implica cero emisiones en el avión.",
+    "difficulty": "advanced"
   },
   {
     "id": 108,
@@ -209,7 +225,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Excluir el cambio de horario sin anotarlo"
     ],
     "correctIndex": 0,
-    "explanation": "Para atribuir ahorro a una intervención hay que separar sus efectos de clima, actividad, tarifas y horario. La factura económica y la energía física no son la misma medida."
+    "explanation": "Para atribuir ahorro a una intervención hay que separar sus efectos de clima, actividad, tarifas y horario. La factura económica y la energía física no son la misma medida.",
+    "difficulty": "advanced"
   },
   {
     "id": 201,
@@ -222,7 +239,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Ninguna cifra"
     ],
     "correctIndex": 1,
-    "explanation": "La comparación debe referirse a entregas intactas y usos reales. Diseñar para reutilizar no demuestra que el circuito de devolución y mantenimiento funcione."
+    "explanation": "La comparación debe referirse a entregas intactas y usos reales. Diseñar para reutilizar no demuestra que el circuito de devolución y mantenimiento funcione.",
+    "difficulty": "foundation"
   },
   {
     "id": 202,
@@ -235,7 +253,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Dejar de documentar el embalaje"
     ],
     "correctIndex": 2,
-    "explanation": "La protección del componente forma parte de la función. Un daño podría generar nuevas piezas, residuos, costes y transportes, anulando cualquier aparente ventaja del menor peso."
+    "explanation": "La protección del componente forma parte de la función. Un daño podría generar nuevas piezas, residuos, costes y transportes, anulando cualquier aparente ventaja del menor peso.",
+    "difficulty": "foundation"
   },
   {
     "id": 203,
@@ -248,7 +267,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "No: hay que rediseñar el flujo manteniendo firma, control de versiones y contingencia"
     ],
     "correctIndex": 3,
-    "explanation": "Digitalizar un documento no equivale a eliminar el proceso físico. La desmaterialización exige registros electrónicos válidos, accesibles y controlados, también ante incidencias del sistema."
+    "explanation": "Digitalizar un documento no equivale a eliminar el proceso físico. La desmaterialización exige registros electrónicos válidos, accesibles y controlados, también ante incidencias del sistema.",
+    "difficulty": "foundation"
   },
   {
     "id": 204,
@@ -261,7 +281,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Declarando reciclaje sin evidencias"
     ],
     "correctIndex": 0,
-    "explanation": "La clasificación por aleación y contaminación evita degradar materiales y permite definir destinos viables. La recuperación debe documentarse y respetar requisitos de seguridad y calidad."
+    "explanation": "La clasificación por aleación y contaminación evita degradar materiales y permite definir destinos viables. La recuperación debe documentarse y respetar requisitos de seguridad y calidad.",
+    "difficulty": "applied"
   },
   {
     "id": 205,
@@ -274,7 +295,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Contabilizarlos como material reciclado"
     ],
     "correctIndex": 1,
-    "explanation": "La segregación, los recipientes adecuados y la trazabilidad dependen de la clasificación de residuos y normas aplicables. No se deben presentar como valorizados sin comprobación del tratamiento."
+    "explanation": "La segregación, los recipientes adecuados y la trazabilidad dependen de la clasificación de residuos y normas aplicables. No se deben presentar como valorizados sin comprobación del tratamiento.",
+    "difficulty": "applied"
   },
   {
     "id": 206,
@@ -287,7 +309,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Nunca, porque las piezas nuevas son mejores"
     ],
     "correctIndex": 2,
-    "explanation": "Una reparación viable puede extender vida útil y evitar producción adicional. Deben incluirse cualificación, límites de vida, consumo de recursos, seguridad y cumplimiento de configuración."
+    "explanation": "Una reparación viable puede extender vida útil y evitar producción adicional. Deben incluirse cualificación, límites de vida, consumo de recursos, seguridad y cumplimiento de configuración.",
+    "difficulty": "applied"
   },
   {
     "id": 207,
@@ -300,7 +323,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Trazabilidad y metodología verificable para el porcentaje y el alcance del producto"
     ],
     "correctIndex": 3,
-    "explanation": "El porcentaje puede depender de mezcla de materias primas y reglas de asignación. Deben declararse el alcance y el respaldo documental, sin inferir automáticamente menor impacto total."
+    "explanation": "El porcentaje puede depender de mezcla de materias primas y reglas de asignación. Deben declararse el alcance y el respaldo documental, sin inferir automáticamente menor impacto total.",
+    "difficulty": "advanced"
   },
   {
     "id": 208,
@@ -313,7 +337,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Sustituir componentes todavía aptos"
     ],
     "correctIndex": 0,
-    "explanation": "Prevenir consumo, reparar y reutilizar cuando sea seguro suele evitar más recursos que gestionar el residuo una vez generado. La jerarquía debe aplicarse junto a requisitos técnicos y de seguridad."
+    "explanation": "Prevenir consumo, reparar y reutilizar cuando sea seguro suele evitar más recursos que gestionar el residuo una vez generado. La jerarquía debe aplicarse junto a requisitos técnicos y de seguridad.",
+    "difficulty": "advanced"
   },
   {
     "id": 301,
@@ -326,7 +351,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Que la sustancia no requiere controles"
     ],
     "correctIndex": 1,
-    "explanation": "La FDS tiene alcance y función determinados. Hay que comprobar obligaciones de sustancia, mezcla o artículo, uso previsto, restricciones, exposición y el proceso interno de aprobación."
+    "explanation": "La FDS tiene alcance y función determinados. Hay que comprobar obligaciones de sustancia, mezcla o artículo, uso previsto, restricciones, exposición y el proceso interno de aprobación.",
+    "difficulty": "foundation"
   },
   {
     "id": 302,
@@ -339,7 +365,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Si se prueba sin registro"
     ],
     "correctIndex": 2,
-    "explanation": "La sustitución necesita evidencia de composición y obligaciones relevantes, rendimiento, compatibilidad y controles del proceso. Promesa ambiental y conformidad no son sinónimos."
+    "explanation": "La sustitución necesita evidencia de composición y obligaciones relevantes, rendimiento, compatibilidad y controles del proceso. Promesa ambiental y conformidad no son sinónimos.",
+    "difficulty": "foundation"
   },
   {
     "id": 303,
@@ -352,7 +379,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Verificar vigencia, alcance, revisión y correspondencia con la pieza suministrada"
     ],
     "correctIndex": 3,
-    "explanation": "Una declaración puede ser útil, pero una versión antigua o genérica puede no cubrir materiales, umbrales o condiciones actuales. La evidencia debe vincularse a la pieza y obligación concreta."
+    "explanation": "Una declaración puede ser útil, pero una versión antigua o genérica puede no cubrir materiales, umbrales o condiciones actuales. La evidencia debe vincularse a la pieza y obligación concreta.",
+    "difficulty": "foundation"
   },
   {
     "id": 304,
@@ -365,7 +393,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Cambiar la categoría del indicador"
     ],
     "correctIndex": 0,
-    "explanation": "Las cadenas multicapa exigen información sobre proveedores y origen, dentro de los procesos aplicables de diligencia debida. No conocer niveles anteriores no prueba ausencia de riesgos."
+    "explanation": "Las cadenas multicapa exigen información sobre proveedores y origen, dentro de los procesos aplicables de diligencia debida. No conocer niveles anteriores no prueba ausencia de riesgos.",
+    "difficulty": "applied"
   },
   {
     "id": 305,
@@ -378,7 +407,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Publicar que todo está conforme"
     ],
     "correctIndex": 1,
-    "explanation": "La diligencia debida exige una respuesta basada en riesgo, con responsables, implicación del proveedor y medidas de prevención y reparación adecuadas. Un hallazgo requiere gestión, no negación."
+    "explanation": "La diligencia debida exige una respuesta basada en riesgo, con responsables, implicación del proveedor y medidas de prevención y reparación adecuadas. Un hallazgo requiere gestión, no negación.",
+    "difficulty": "applied"
   },
   {
     "id": 306,
@@ -391,7 +421,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Aprobarla automáticamente por llevar sello"
     ],
     "correctIndex": 2,
-    "explanation": "La marca fitosanitaria y la inspección física aportan evidencias distintas. La decisión debe seguir el procedimiento de embalajes y control de riesgo aplicable, sin presuponer conformidad total."
+    "explanation": "La marca fitosanitaria y la inspección física aportan evidencias distintas. La decisión debe seguir el procedimiento de embalajes y control de riesgo aplicable, sin presuponer conformidad total.",
+    "difficulty": "applied"
   },
   {
     "id": 307,
@@ -404,7 +435,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Detener la liberación hasta verificar compatibilidad y trazabilidad aprobadas"
     ],
     "correctIndex": 3,
-    "explanation": "La rapidez no reemplaza configuración, conformidad ni aeronavegabilidad. La opción logística solo es válida cuando los requisitos técnicos y documentales están satisfechos."
+    "explanation": "La rapidez no reemplaza configuración, conformidad ni aeronavegabilidad. La opción logística solo es válida cuando los requisitos técnicos y documentales están satisfechos.",
+    "difficulty": "advanced"
   },
   {
     "id": 308,
@@ -417,7 +449,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Esperar al próximo auditor"
     ],
     "correctIndex": 0,
-    "explanation": "La corrección puntual remedia un ejemplo; una CAPA aborda causas y verifica que no reaparezca. El cierre debe acompañarse de evidencia de efectividad."
+    "explanation": "La corrección puntual remedia un ejemplo; una CAPA aborda causas y verifica que no reaparezca. El cierre debe acompañarse de evidencia de efectividad.",
+    "difficulty": "advanced"
   },
   {
     "id": 401,
@@ -430,7 +463,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Solo los datos favorables"
     ],
     "correctIndex": 1,
-    "explanation": "Un dato ausente no es un impacto nulo. Pueden emplearse factores o proxies adecuados cuando se indiquen método, incertidumbre y plan de sustitución por datos de mayor calidad."
+    "explanation": "Un dato ausente no es un impacto nulo. Pueden emplearse factores o proxies adecuados cuando se indiquen método, incertidumbre y plan de sustitución por datos de mayor calidad.",
+    "difficulty": "foundation"
   },
   {
     "id": 402,
@@ -443,7 +477,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Puede considerarse una homologación"
     ],
     "correctIndex": 2,
-    "explanation": "Las declaraciones genéricas inducen a error si ocultan límites y criterios. Es preferible especificar, por ejemplo, la reducción estimada de un consumo concreto bajo condiciones definidas."
+    "explanation": "Las declaraciones genéricas inducen a error si ocultan límites y criterios. Es preferible especificar, por ejemplo, la reducción estimada de un consumo concreto bajo condiciones definidas.",
+    "difficulty": "foundation"
   },
   {
     "id": 403,
@@ -456,7 +491,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Como desconocido o estimado, con fuente y nivel de incertidumbre"
     ],
     "correctIndex": 3,
-    "explanation": "La ausencia de medida no justifica contabilizar cero. Los intervalos y los análisis de sensibilidad ayudan a tomar decisiones sin fingir precisión."
+    "explanation": "La ausencia de medida no justifica contabilizar cero. Los intervalos y los análisis de sensibilidad ayudan a tomar decisiones sin fingir precisión.",
+    "difficulty": "foundation"
   },
   {
     "id": 404,
@@ -469,7 +505,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "No incluir un responsable"
     ],
     "correctIndex": 0,
-    "explanation": "La trazabilidad de una afirmación depende de saber qué se comparó, dónde, cuándo y con qué método, además de reconocer condiciones y aspectos excluidos."
+    "explanation": "La trazabilidad de una afirmación depende de saber qué se comparó, dónde, cuándo y con qué método, además de reconocer condiciones y aspectos excluidos.",
+    "difficulty": "applied"
   },
   {
     "id": 405,
@@ -482,7 +519,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Cambiar el año base sin explicarlo"
     ],
     "correctIndex": 1,
-    "explanation": "La mejora relativa puede convivir con un aumento de impacto total. Un cuadro de mando fiable permite interpretar ambos y su contexto."
+    "explanation": "La mejora relativa puede convivir con un aumento de impacto total. Un cuadro de mando fiable permite interpretar ambos y su contexto.",
+    "difficulty": "applied"
   },
   {
     "id": 406,
@@ -495,7 +533,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Una etiqueta «aprobado ambientalmente»"
     ],
     "correctIndex": 2,
-    "explanation": "La decisión condicionada debe identificar asuntos que podrían modificarla y quién los cerrará. Evaluación de sostenibilidad y autorización técnica tienen ámbitos distintos."
+    "explanation": "La decisión condicionada debe identificar asuntos que podrían modificarla y quién los cerrará. Evaluación de sostenibilidad y autorización técnica tienen ámbitos distintos.",
+    "difficulty": "applied"
   },
   {
     "id": 407,
@@ -508,7 +547,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "No: el aprendizaje no sustituye las comprobaciones y autorizaciones aplicables"
     ],
     "correctIndex": 3,
-    "explanation": "Una app puede ayudar a comprender requisitos, pero la conformidad exige evidencia, responsabilidades y procesos competentes para cada caso real."
+    "explanation": "Una app puede ayudar a comprender requisitos, pero la conformidad exige evidencia, responsabilidades y procesos competentes para cada caso real.",
+    "difficulty": "advanced"
   },
   {
     "id": 408,
@@ -521,7 +561,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Un logotipo de compensación"
     ],
     "correctIndex": 0,
-    "explanation": "Comprar créditos no elimina las emisiones físicas del proyecto. La comunicación debe diferenciar reducciones directas, inventario y uso de créditos, evitando equivalencias no respaldadas."
+    "explanation": "Comprar créditos no elimina las emisiones físicas del proyecto. La comunicación debe diferenciar reducciones directas, inventario y uso de créditos, evitando equivalencias no respaldadas.",
+    "difficulty": "advanced"
   },
   {
     "id": 501,
@@ -534,7 +575,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Omitir el problema del informe"
     ],
     "correctIndex": 1,
-    "explanation": "La resiliencia operativa no consiste en saltarse controles. Una alternativa local puede mejorar plazo y logística solo si el componente es elegible y la documentación está cerrada."
+    "explanation": "La resiliencia operativa no consiste en saltarse controles. Una alternativa local puede mejorar plazo y logística solo si el componente es elegible y la documentación está cerrada.",
+    "difficulty": "foundation"
   },
   {
     "id": 502,
@@ -547,7 +589,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Cambiar el color del cuadro de mando"
     ],
     "correctIndex": 2,
-    "explanation": "Atacar la causa de las urgencias puede mejorar disponibilidad y consumo de recursos simultáneamente. Deben medirse los resultados bajo condiciones comparables."
+    "explanation": "Atacar la causa de las urgencias puede mejorar disponibilidad y consumo de recursos simultáneamente. Deben medirse los resultados bajo condiciones comparables.",
+    "difficulty": "foundation"
   },
   {
     "id": 503,
@@ -560,7 +603,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Evaluar vida restante, alternativas cualificables, reparabilidad y suministro"
     ],
     "correctIndex": 3,
-    "explanation": "La gestión de obsolescencia conecta ingeniería, compras y operaciones. Las decisiones requieren datos sobre vida útil, configuración, validación y exposición del suministro."
+    "explanation": "La gestión de obsolescencia conecta ingeniería, compras y operaciones. Las decisiones requieren datos sobre vida útil, configuración, validación y exposición del suministro.",
+    "difficulty": "foundation"
   },
   {
     "id": 504,
@@ -573,7 +617,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Registrar únicamente el volumen teórico"
     ],
     "correctIndex": 0,
-    "explanation": "La continuidad operativa debe incorporar límites de instalación, vertidos y sustancias. No se debe asumir que un agua de proceso puede verterse sin revisión."
+    "explanation": "La continuidad operativa debe incorporar límites de instalación, vertidos y sustancias. No se debe asumir que un agua de proceso puede verterse sin revisión.",
+    "difficulty": "applied"
   },
   {
     "id": 505,
@@ -586,7 +631,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Cancelar todo mantenimiento"
     ],
     "correctIndex": 1,
-    "explanation": "Una respuesta sólida conecta evaluación de riesgos, configuración y acciones preventivas. La diversificación solo funciona si las alternativas cumplen los requisitos aplicables."
+    "explanation": "Una respuesta sólida conecta evaluación de riesgos, configuración y acciones preventivas. La diversificación solo funciona si las alternativas cumplen los requisitos aplicables.",
+    "difficulty": "applied"
   },
   {
     "id": 506,
@@ -599,7 +645,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "La media anual de temperaturas"
     ],
     "correctIndex": 2,
-    "explanation": "La decisión debe actualizarse con el contexto real de la interrupción. Mantener una estimación anterior sin revisar riesgos y movimientos adicionales conduce a conclusiones erróneas."
+    "explanation": "La decisión debe actualizarse con el contexto real de la interrupción. Mantener una estimación anterior sin revisar riesgos y movimientos adicionales conduce a conclusiones erróneas.",
+    "difficulty": "applied"
   },
   {
     "id": 507,
@@ -612,7 +659,8 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Retroalimentar ingeniería con tiempos, accesos, riesgos y posibilidades de mejora"
     ],
     "correctIndex": 3,
-    "explanation": "La experiencia MRO puede orientar un diseño más mantenible y prolongar la vida útil. Las propuestas deben someterse a los controles de ingeniería y seguridad pertinentes."
+    "explanation": "La experiencia MRO puede orientar un diseño más mantenible y prolongar la vida útil. Las propuestas deben someterse a los controles de ingeniería y seguridad pertinentes.",
+    "difficulty": "advanced"
   },
   {
     "id": 508,
@@ -625,15 +673,53 @@ export const GENERAL_QUESTIONS: Question[] = [
       "Presentar como definitiva la primera estimación"
     ],
     "correctIndex": 0,
-    "explanation": "La sensibilidad identifica supuestos que pueden invertir la elección. Una decisión condicionada necesita responsables, límites y un mecanismo de revisión."
-  }
+    "explanation": "La sensibilidad identifica supuestos que pueden invertir la elección. Una decisión condicionada necesita responsables, límites y un mecanismo de revisión.",
+    "difficulty": "advanced"
+  },
+  ...EXTRA_GENERAL_QUESTIONS
 ];
 
 export const QUESTIONS = CLIMATE_MODE ? CLIMATE_QUESTIONS : GENERAL_QUESTIONS;
 
-export function getRandomQuestion(category: number, usedIds: number[]): Question | null {
-  const categoryQuestions = QUESTIONS.filter((question) => question.category === category);
-  const available = categoryQuestions.filter((question) => !usedIds.includes(question.id));
-  const pool = available.length > 0 ? available : categoryQuestions;
-  return pool[Math.floor(Math.random() * pool.length)] ?? null;
+/** Prioritise unseen questions across games, avoiding repeats until a category is exhausted. */
+export function getRandomQuestion(category: number, usedIds: number[], history: number[] = [], preferred?: Difficulty): Question | null {
+  return selectQuestion(QUESTIONS, category, usedIds, history, preferred);
+}
+export function selectQuestion(bank: Question[], category: number, usedIds: number[], history: number[] = [], preferred?: Difficulty): Question | null {
+  const categoryQuestions = bank.filter(q => q.category === category);
+  if (!categoryQuestions.length) return null;
+  const available = categoryQuestions.filter(q => !usedIds.includes(q.id));
+  const unused = available.length ? available : categoryQuestions;
+  const unseen = unused.filter(q => !history.includes(q.id));
+  let pool = unseen.length ? unseen : unused;
+  // Questions sharing an authored scenario have the same feedback. Prefer other scenarios
+  // before returning to that scenario, so feedback cannot immediately reveal the next answer.
+  const usedScenarios = new Set(bank.filter(q => usedIds.includes(q.id)).map(q => q.explanation));
+  const otherScenarios = pool.filter(q => !usedScenarios.has(q.explanation));
+  if (otherScenarios.length) pool = otherScenarios;
+  if (!unseen.length) {
+    const oldest = Math.min(...pool.map(q => history.indexOf(q.id)));
+    pool = pool.filter(q => history.indexOf(q.id) === oldest);
+  } else {
+    const levels: Difficulty[] = ['foundation','applied','advanced'];
+    const counts = Object.fromEntries(levels.map(level => [level, usedIds.filter(id => bank.find(q => q.id === id)?.difficulty === level).length]));
+    const requested = preferred ? pool.filter(q => q.difficulty === preferred) : [];
+    if (requested.length) pool = requested;
+    else {
+      const minimum = Math.min(...pool.map(q => counts[q.difficulty ?? 'applied']));
+      pool = pool.filter(q => counts[q.difficulty ?? 'applied'] === minimum);
+    }
+  }
+  return shuffleAnswers(pool[Math.floor(Math.random() * pool.length)]);
+}
+export function shuffleAnswers(question: Question, random = Math.random): Question {
+  const indexed = question.options.map((text, index) => ({text, correct: index === question.correctIndex}));
+  for (let i = indexed.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [indexed[i], indexed[j]] = [indexed[j], indexed[i]];
+  }
+  return {...question, options: indexed.map(o => o.text), correctIndex: indexed.findIndex(o => o.correct)};
+}
+export function rememberQuestion(history: number[], id: number): number[] {
+  return [...history.filter(previous => previous !== id), id];
 }

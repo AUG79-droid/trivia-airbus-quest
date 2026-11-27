@@ -3,12 +3,12 @@ import { CATEGORY_NAMES, CATEGORY_SHORT_NAMES } from '../game/board';
 import { QUESTIONS, getRandomQuestion } from '../game/questions';
 
 describe("Valida el alcance transversal del temario", () => {
-  it("Los datos del tablero conservan seis categorías con ocho retos cada una.", () => {
+  it("Los datos del tablero conservan seis categorías con treinta retos cada una.", () => {
     expect(CATEGORY_NAMES).toHaveLength(6);
     expect(CATEGORY_SHORT_NAMES).toHaveLength(6);
-    expect(QUESTIONS).toHaveLength(48);
+    expect(QUESTIONS).toHaveLength(180);
     for (let category = 0; category < 6; category++) {
-      expect(QUESTIONS.filter(item => item.category === category)).toHaveLength(8);
+      expect(QUESTIONS.filter(item => item.category === category)).toHaveLength(30);
       expect(getRandomQuestion(category, [])).not.toBeNull();
     }
   });
@@ -23,15 +23,15 @@ describe("Valida el alcance transversal del temario", () => {
       distribution[q.correctIndex]++;
       expect(q.explanation.trim().length).toBeGreaterThan(90);
     }
-    expect(distribution).toEqual([12,12,12,12]);
+    expect(distribution).toEqual([45,45,45,45]);
   });
   it("Las categorías se muestran como Gobernanza y Gestión de riesgos.", () => {
     expect(CATEGORY_NAMES.slice(4)).toEqual(["Gobernanza", "Gestión de riesgos"]);
     expect(CATEGORY_SHORT_NAMES[3]).toBe("Cadena de suministro");
     expect(CATEGORY_SHORT_NAMES.slice(4)).toEqual(["Gobernanza", "Gestión de riesgos"]);
   });
-  it("Las 48 preguntas presentan identificadores distintos y no incluyen categorías previas de naturaleza.", () => {
-    expect(new Set(QUESTIONS.map(q => q.id)).size).toBe(48);
+  it("Las 180 preguntas presentan identificadores distintos y no incluyen categorías previas de naturaleza.", () => {
+    expect(new Set(QUESTIONS.map(q => q.id)).size).toBe(180);
     expect(CATEGORY_NAMES.join(' | ').toLowerCase()).not.toMatch(/naturaleza|ecosistemas|\\bnature\\b|\\becosystems\\b/);
     for (let category=0; category<6; category++) {
       const used = QUESTIONS.filter(q => q.category === category).map(q => q.id);

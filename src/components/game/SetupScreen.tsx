@@ -37,6 +37,7 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
           <div><strong>5</strong><span>Supera la final</span></div>
         </div>
 
+        <p className="setup-lead">180 preguntas · 30 por categoría · tres niveles. Se priorizan preguntas no respondidas en este navegador y se cambia el orden de las respuestas. Solo se repiten cuando se agotan las de una categoría en la partida.</p>
         <div className="category-strip">
           {CATEGORY_SHORT_NAMES.map((name, index) => (
             <span key={name}><i style={{ backgroundColor: CATEGORY_COLORS[index] }} />{name}</span>

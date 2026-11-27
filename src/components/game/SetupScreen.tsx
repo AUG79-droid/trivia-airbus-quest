@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { CATEGORY_COLORS, CATEGORY_SHORT_NAMES, PLAYER_COLORS } from '../../game/board';
 
+import { CLIMATE_MODE } from '../../game/climate';
+
 interface SetupScreenProps {
   onStart: (names: string[]) => void;
 }
@@ -23,10 +25,9 @@ export default function SetupScreen({ onStart }: SetupScreenProps) {
           <span /><span /><span /><span /><span /><span />
         </div>
         <p className="eyebrow">APRENDER · DECIDIR · AVANZAR</p>
-        <h1><span>Sustainability</span> Quest</h1>
-        <p className="setup-lead">
-          Explora ecodiseño, operaciones, circularidad, cadena de suministro, gobernanza y gestión de riesgos en un tablero de seis categorías. Consigue las seis insignias de aprendizaje.
-        </p>
+        <h1><span>{CLIMATE_MODE ? "Adaptación climática" : "Sustainability"}</span> Quest</h1>
+        <p className="setup-lead">{CLIMATE_MODE ? "Practica decisiones aeronáuticas ficticias sobre riesgos físicos, vulnerabilidad del producto, diseño, operaciones, fenómenos extremos y evidencias. El juego no autoriza cambios técnicos ni operativos." : "Explora ecodiseño, operaciones, circularidad, cadena de suministro, gobernanza y gestión de riesgos en un tablero de seis categorías. Consigue las seis insignias de aprendizaje."}</p>
+        <p><a className="primary-button" href={CLIMATE_MODE ? "./" : "?track=climate"}>{CLIMATE_MODE ? "Sustainability Quest general" : "Reto de adaptación climática"}</a></p>
 
         <div className="mission-flow" aria-label="Cómo se juega">
           <div><strong>1</strong><span>Tira el dado</span></div>

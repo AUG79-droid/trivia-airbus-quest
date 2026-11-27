@@ -1,7 +1,8 @@
 import { Question } from './types';
+import { CLIMATE_MODE, CLIMATE_QUESTIONS } from './climate';
 
 /** 48 escenarios aplicados: ocho por categoría. Datos y decisiones didácticos, no aprobaciones reales de Airbus. */
-export const QUESTIONS: Question[] = [
+export const GENERAL_QUESTIONS: Question[] = [
   {
     "id": 1,
     "category": 0,
@@ -627,6 +628,8 @@ export const QUESTIONS: Question[] = [
     "explanation": "La sensibilidad identifica supuestos que pueden invertir la elección. Una decisión condicionada necesita responsables, límites y un mecanismo de revisión."
   }
 ];
+
+export const QUESTIONS = CLIMATE_MODE ? CLIMATE_QUESTIONS : GENERAL_QUESTIONS;
 
 export function getRandomQuestion(category: number, usedIds: number[]): Question | null {
   const categoryQuestions = QUESTIONS.filter((question) => question.category === category);

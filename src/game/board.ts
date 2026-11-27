@@ -1,4 +1,5 @@
 import { BoardNode } from './types';
+import { CLIMATE_MODE, CLIMATE_NAMES, CLIMATE_SHORT_NAMES } from './climate';
 
 export const CX = 300;
 export const CY = 300;
@@ -14,7 +15,7 @@ export const CATEGORY_COLORS = [
   '#22d3ee',
 ];
 
-export const CATEGORY_NAMES = [
+export const CATEGORY_NAMES = CLIMATE_MODE ? CLIMATE_NAMES : [
   "Ecodiseño y ciclo de vida",
   "Operaciones y energía",
   "Circularidad y materiales",
@@ -23,7 +24,7 @@ export const CATEGORY_NAMES = [
   "Gestión de riesgos"
 ];
 
-export const CATEGORY_SHORT_NAMES = [
+export const CATEGORY_SHORT_NAMES = CLIMATE_MODE ? CLIMATE_SHORT_NAMES : [
   "Ecodiseño",
   "Operaciones",
   "Circularidad",
